@@ -1,0 +1,28 @@
+{
+  "name": "kitty",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "bun parse.js result.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/d1y/kitty.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/d1y/kitty/issues"
+  },
+  "homepage": "https://github.com/d1y/kitty#readme",
+  "dependencies": {
+    "@babel/generator": "^7.28.3",
+    "@babel/parser": "^7.28.4",
+    "@babel/traverse": "^7.28.4",
+    "@types/kitty": "/Users/shiwanbaqianmeng/code/github/movie/JS/types",
+    "typescript": "^5.9.2"
+  }
+}
