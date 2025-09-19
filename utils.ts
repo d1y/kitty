@@ -1,3 +1,4 @@
+import { writeFileSync } from 'fs'
 import { load } from 'cheerio'
 
 /** @type {KittyReq} */
@@ -24,4 +25,8 @@ export function toEnv(env: { baseUrl: string, params?: Partial<Record<KittyEnvPa
 
 export function createTestEnv(baseUrl: string, params: Partial<Record<KittyEnvParams, any>> = {}) {
   return toEnv({ baseUrl, params })
+}
+
+export function write(code: string, file: string) {
+  writeFileSync(file, code, { encoding: 'utf-8' })
 }

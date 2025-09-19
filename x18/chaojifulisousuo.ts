@@ -1,4 +1,4 @@
-import { kitty, createTestEnv, req } from '../utils'
+// import { kitty, createTestEnv, req } from '../utils'
 
 export default class chaojisousuo14 implements Handle {
   getConfig() {
@@ -87,16 +87,16 @@ export default class chaojisousuo14 implements Handle {
 }
 
 // TEST
-const env = createTestEnv('https://chaojisousuo14.buzz', {
-  page: 1,
-  category: 33,
-  keyword: '黑丝',
-})
-const call = new chaojisousuo14()
-;(async ()=> {
-  const home = await call.getHome()
-  env.set('movieId', home[0].id)
-  const searchs = await call.getSearch()
-  const detail =  await call.getDetail()
-  debugger
-})()
+// const env = createTestEnv('https://chaojisousuo14.buzz', {
+//   page: 1,
+//   category: 33,
+//   keyword: '黑丝',
+// })
+// const call = new chaojisousuo14()
+// ;(async ()=> {
+//   const home = await call.getHome()
+//   env.set('movieId', home[0].id)
+//   const searchs = await call.getSearch()
+//   const detail =  await call.getDetail()
+//   debugger
+// })()
