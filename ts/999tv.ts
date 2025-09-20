@@ -40,6 +40,7 @@ export default class JS999tv implements Handle {
     const url = `${env.baseUrl}${id}`
     const html = await req(url)
     const $ = kitty.load(html)
+    // TODO(d1y): 上游应该添加一个 desc
     const desc = $(".show-desc").text()
     const title = $(".module-info-heading h1").text()
     const cover = $(".ls-is-cached.lazy.lazyload").attr("data-original") ?? ""
