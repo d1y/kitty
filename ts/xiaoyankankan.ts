@@ -1,4 +1,4 @@
-import { kitty, req, createTestEnv } from '../utils'
+// import { kitty, req, createTestEnv } from 'utils'
 
 export default class xiaoyakankan implements Handle {
   getConfig() {
@@ -83,14 +83,14 @@ export default class xiaoyakankan implements Handle {
 }
 
 // TEST
-const env = createTestEnv("https://xiaoyakankan.com")
-const xy = new xiaoyakankan()
-;(async () => {
-  const cate = await xy.getCategory()
-  env.set("category", cate[0].id)
-  env.set("page", 1)
-  const home = await xy.getHome()
-  env.set("movieId", home[0].id)
-  const detail = await xy.getDetail()
-  debugger
-})()
+// const env = createTestEnv("https://xiaoyakankan.com")
+// const xy = new xiaoyakankan()
+// ;(async () => {
+//   const cate = await xy.getCategory()
+//   env.set("category", cate[0].id)
+//   env.set("page", 1)
+//   const home = await xy.getHome()
+//   env.set("movieId", home[0].id)
+//   const detail = await xy.getDetail()
+//   debugger
+// })()

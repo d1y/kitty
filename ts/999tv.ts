@@ -1,4 +1,4 @@
-import { kitty, req, createTestEnv } from '../utils'
+// import { kitty, req, createTestEnv } from 'utils'
 
 export default class JS999tv implements Handle {
   getConfig() {
@@ -85,19 +85,19 @@ export default class JS999tv implements Handle {
 }
 
 // TEST
-const env = createTestEnv("https://999tv.app")
-const ny = new JS999tv()
-;(async ()=> {
-  const category = await ny.getCategory()
-  env.set("category", category[0].id)
-  env.set("page", 2)
-  const home = await ny.getHome()
-  env.set("keyword", "黑社会")
-  const search = await ny.getSearch()
-  // env.set("movieId", search[1].id)
-  env.set("movieId", home[1].id)
-  const detail = await ny.getDetail()
-  env.set("iframe", detail[0].playlist[0].id)
-  const realM3u8 = await ny.parseIframe()
-  debugger
-})()
+// const env = createTestEnv("https://999tv.app")
+// const ny = new JS999tv()
+// ;(async ()=> {
+//   const category = await ny.getCategory()
+//   env.set("category", category[0].id)
+//   env.set("page", 2)
+//   const home = await ny.getHome()
+//   env.set("keyword", "黑社会")
+//   const search = await ny.getSearch()
+//   // env.set("movieId", search[1].id)
+//   env.set("movieId", home[1].id)
+//   const detail = await ny.getDetail()
+//   env.set("iframe", detail[0].playlist[0].id)
+//   const realM3u8 = await ny.parseIframe()
+//   debugger
+// })()

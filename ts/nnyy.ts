@@ -1,4 +1,4 @@
-// import { kitty, req, createTestEnv, write } from '../utils'
+// import { kitty, req, createTestEnv, write } from 'utils'
 
 // 源地址: https://nnyy.in
 // ^ 该地址默认不支持 page 参数, 所以使用子域名

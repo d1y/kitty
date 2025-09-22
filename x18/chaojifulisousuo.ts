@@ -1,4 +1,4 @@
-// import { kitty, createTestEnv, req } from '../utils'
+// import { kitty, createTestEnv, req } from 'utils'
 
 export default class chaojisousuo14 implements Handle {
   getConfig() {

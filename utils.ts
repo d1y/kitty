@@ -1,9 +1,69 @@
 import { writeFileSync } from 'fs'
 import { load } from 'cheerio'
 
-/** @type {KittyReq} */
-export async function req(url: string) {
-  return await (await fetch(url)).text()
+export async function req(
+  urlOrOptions: string | KittyRequestOptions,
+  options?: Partial<KittyRequestOptions>
+): Promise<string> {
+  let finalOptions: KittyRequestOptions
+
+  if (typeof urlOrOptions === 'string') {
+    // req(url) | req(url, options)
+    finalOptions = {
+      url: urlOrOptions,
+      method: 'GET',
+      headers: {},
+      params: {},
+      ...options
+    }
+  } else {
+    // req(options)
+    finalOptions = {
+      method: 'GET',
+      headers: {},
+      params: {},
+      ...urlOrOptions
+    }
+  }
+
+  if (!finalOptions.url) {
+    throw new Error('URL is required')
+  }
+
+  let url = finalOptions.url
+  let body: string | undefined
+
+  if (!finalOptions.headers) {
+    finalOptions.headers = {}
+  }
+
+  if (finalOptions.params && Object.keys(finalOptions.params).length > 0) {
+    if (finalOptions.method === 'GET') {
+      const urlObj = new URL(url)
+      Object.entries(finalOptions.params).forEach(([key, value]) => {
+        urlObj.searchParams.set(key, String(value))
+      })
+      url = urlObj.toString()
+    } else {
+      if (!finalOptions.headers['Content-Type']) {
+        finalOptions.headers['Content-Type'] = 'application/x-www-form-urlencoded'
+      }
+
+      if (finalOptions.headers['Content-Type'] === 'application/json') {
+        body = JSON.stringify(finalOptions.params)
+      } else {
+        body = new URLSearchParams(finalOptions.params as Record<string, string>).toString()
+      }
+    }
+  }
+
+  const response = await fetch(url, {
+    method: finalOptions.method,
+    headers: finalOptions.headers,
+    body: body
+  })
+
+  return await response.text()
 }
 
 export const kitty: Kitty = { load }
