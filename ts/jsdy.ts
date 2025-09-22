@@ -29,7 +29,8 @@ export default class jsdy implements Handle {
       const a = $(item).find("a.stui-vodlist__thumb")
       const id = a.attr("href") ?? ""
       const title = a.attr("title") ?? ""
-      const cover = a.find("img").attr("data-original") ?? ""
+      let cover = a.find("img").attr("data-original") ?? ""
+      cover = `${env.baseUrl}${cover}`
       return <IMovie>{ id, title, cover }
     })
   }
@@ -40,7 +41,8 @@ export default class jsdy implements Handle {
     const $ = kitty.load(html)
     const a = $(".stui-content.col-pd a.stui-vodlist__thumb")
     const title = a.attr("title") ?? ""
-    const cover = a.find("img").attr("data-original") ?? ""
+    let cover = a.find("img").attr("data-original") ?? ""
+    cover = `${env.baseUrl}${cover}`
     const desc = ($(".stui-content__desc").text() ?? "").trim()
     const player = $(".stui-content__playlist li").toArray().map(item => {
       const a = $(item).find("a")
@@ -61,7 +63,8 @@ export default class jsdy implements Handle {
       const a = $(item).find("a.stui-vodlist__thumb")
       const id = a.attr("href") ?? ""
       const title = a.attr("title") ?? ""
-      const cover = a.find("img").attr("data-original") ?? ""
+      let cover = a.find("img").attr("data-original") ?? ""
+      cover = `${env.baseUrl}${cover}`
       return <IMovie>{ id, title, cover }
     })
   }
