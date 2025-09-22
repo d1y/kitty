@@ -93,10 +93,6 @@ export default class taiav implements Handle {
       }
     }).filter(item=> !!item)
   }
-  async parseIframe() {
-    return ""
-  }
-
 }
 
 // TEST

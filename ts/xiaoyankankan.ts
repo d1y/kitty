@@ -70,16 +70,6 @@ export default class xiaoyakankan implements Handle {
       playlist,
     }]
   }
-  async getSearch() {
-    // 所以说确实不支持搜索啊?
-    // 我估计得在上游给源添加 `是否支持搜索` 的配置
-    return []
-  }
-  async parseIframe() {
-    // TODO(d1y): 这种不需要的, 就别硬编码进去了吧?
-    // 修改上游不需要的
-    return []
-  }
 }
 
 // TEST
