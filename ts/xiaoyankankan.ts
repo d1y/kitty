@@ -31,7 +31,10 @@ export default class xiaoyakankan implements Handle {
       const img = $(item).find("img.img")
       const id = $(item).find("a.link").attr("href") ?? ""
       const title = img.attr("alt") ?? ""
-      const cover = img.attr("data-src") ?? ""
+      let cover = img.attr("data-src") ?? ""
+      if (!!cover && cover.startsWith("//")) {
+        cover = `https:${cover}`
+      }
       const remark = $(item).find(".tag1").text() ?? ""
       return { id, title, cover, remark, playlist: [] }
     })
@@ -43,7 +46,10 @@ export default class xiaoyakankan implements Handle {
     const $ = kitty.load(html)
     const div = $(".m4-vod")
     const img = div.find("img.img")
-    const cover = img.attr("src") ?? ""
+    let cover = img.attr("src") ?? ""
+    if (!!cover && cover.startsWith("//")) {
+      cover = `https:${cover}`
+    }
     const title = img.attr("alt") ?? ""
     const playlist: IPlaylist[] = []
     for (const script of $("body script").toArray()) {
