@@ -7,3 +7,5 @@ bun parse.js result.json
 # http://192.168.1.x:8080/result.json
 npx http-server
 ```
+
+订阅地址: https://d1y.github.io/kitty/x.json
