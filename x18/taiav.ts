@@ -62,7 +62,7 @@ export default class taiav implements Handle {
     const remark = $('.uk-padding-small .uk-grid-small.uk-grid div').toArray().map(item=> {
       return $(item).text()
     }).join(',')
-    return <IMovie[]>[{
+    return <IMovie>{
       id,
       title,
       cover,
@@ -70,7 +70,7 @@ export default class taiav implements Handle {
       playlist: [
         <IPlaylist>{ text: '高清', url: `${env.baseUrl}${m3u8}` }
       ]
-    }]
+    }
   }
   async getSearch() {
     const url = `${env.baseUrl}/cn/search?q=${env.get('keyword')}&page=${env.get('page')}`

@@ -50,13 +50,13 @@ export default class JS999tv implements Handle {
       const id = $(item).attr("href") ?? ""
       return { text, id }
     })
-    return <IMovie[]>[{
+    return <IMovie>{
       id,
       title,
       cover,
       remark: "",
       playlist,
-    }]
+    }
   }
   async getSearch() {
     // FIXME(d1y): 它这里有反爬虫策略, 返回的html在调戏我

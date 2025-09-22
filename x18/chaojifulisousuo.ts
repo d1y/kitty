@@ -55,12 +55,12 @@ export default class chaojisousuo14 implements Handle {
       const text = a.text()
       return { text, id }
     })
-    return <IMovie[]>[{
+    return <IMovie>{
       title: img.attr("title") ?? "",
       cover: img.attr("src") ?? "",
       id: id,
       playlist,
-    }]
+    }
   }
   async getSearch() {
     const url = `${env.baseUrl}/index.php/vod/search/page/${env.get("page")}/wd/${env.get("keyword")}.html`

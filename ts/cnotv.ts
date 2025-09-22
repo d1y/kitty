@@ -51,7 +51,7 @@ export default class cnotv implements Handle {
       const text = a.text() ?? ""
       playlist.push({ id, text })
     })
-    return <IMovie[]>[{ id, cover, title, remark: "", desc, playlist }]
+    return <IMovie>{ id, cover, title, remark: "", desc, playlist }
   }
   async getSearch() {
     const wd = env.get("keyword")

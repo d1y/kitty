@@ -62,13 +62,13 @@ export default class xiaoyakankan implements Handle {
         playlist.push({ text, url })
       }
     }
-    return <IMovie[]>[{
+    return <IMovie>{
       id,
       title,
       cover,
       remark: "",
       playlist,
-    }]
+    }
   }
 }
 

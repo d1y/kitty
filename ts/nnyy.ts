@@ -58,7 +58,7 @@ export default class nnyy implements Handle {
       const id = a.attr("href") ?? ""
       return { id, text}
     })
-    return <IMovie[]>[{ id, cover, title, remark, playlist: playlist }]
+    return <IMovie>{ id, cover, title, remark, playlist: playlist }
   }
   async getSearch() {
     const wd = env.get("keyword")
