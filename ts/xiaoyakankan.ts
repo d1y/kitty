@@ -51,6 +51,8 @@ export default class xiaoyakankan implements Handle {
       cover = `https:${cover}`
     }
     const title = img.attr("alt") ?? ""
+    let desc = $(".more .info:last-of-type").text() ?? ""
+    desc = desc.replace("简介：", "")
     const playlist: IPlaylist[] = []
     for (const script of $("body script").toArray()) {
       let cx = $(script).text() ?? ""
@@ -72,6 +74,7 @@ export default class xiaoyakankan implements Handle {
       id,
       title,
       cover,
+      desc,
       remark: "",
       playlist,
     }

@@ -50,6 +50,7 @@ export default class nnyy implements Handle {
     const cover = a.find("img").attr("data-original") ?? ""
     const title = a.attr("title") ?? ""
     const remark = $(".data .text-red").text() ?? ""
+    const desc = $(".data p").text() ?? ""
     // FIXME(d1y): 如果是多源的话就惨了
     // > 壳的通用解析需要适配 Map<string, IPlaylist[]>
     const playlist: IPlaylist[] = $(".myui-content__list.sort-list li").toArray().map(item=> {
@@ -58,7 +59,7 @@ export default class nnyy implements Handle {
       const id = a.attr("href") ?? ""
       return { id, text}
     })
-    return <IMovie>{ id, cover, title, remark, playlist: playlist }
+    return <IMovie>{ id, cover, title, desc, remark, playlist: playlist }
   }
   async getSearch() {
     const wd = env.get("keyword")
