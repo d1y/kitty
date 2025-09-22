@@ -29,25 +29,37 @@ function parseWithStr(rawCode) {
   // 存储所有方法的压缩代码
   const methodCodes = {};
 
-  // 步骤3: 找到默认导出的类名
-  let defaultExportClassName = null;
+  // 步骤3: 找到导出的类名（支持默认导出和命名导出）
+  let targetClassName = null;
 
-  // 查找 exports.default = ClassName 模式
+  // 查找 exports.default = ClassName 模式（默认导出）
   traverse(ast, {
     AssignmentExpression(path) {
       if (path.node.left.type === 'MemberExpression' &&
         path.node.left.object.name === 'exports' &&
         path.node.left.property.name === 'default' &&
         path.node.right.type === 'Identifier') {
-        defaultExportClassName = path.node.right.name;
+        targetClassName = path.node.right.name;
       }
     }
   });
 
+  // 如果没有找到默认导出，查找命名导出的类
+  if (!targetClassName) {
+    traverse(ast, {
+      ClassDeclaration(path) {
+        // 检查类是否实现了 Handle 接口
+        if (path.node.implements && path.node.implements.some(impl => impl.expression?.name === 'Handle')) {
+          targetClassName = path.node.id?.name;
+        }
+      }
+    });
+  }
+
   // 步骤4: 提取配置和压缩return语句
   traverse(ast, {
     ClassDeclaration(path) {
-      if (path.node.id?.name === defaultExportClassName) {
+      if (path.node.id?.name === targetClassName) {
         path.get('body').get('body').forEach(methodPath => {
           // 解析 getConfig 方法
           if (methodPath.node.key?.name === 'getConfig') {

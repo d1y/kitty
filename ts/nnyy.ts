@@ -3,7 +3,7 @@
 // 源地址: https://nnyy.in
 // ^ 该地址默认不支持 page 参数, 所以使用子域名
 // 该源可能需要过CF墙, 需要壳留存 CF-id
-export class nnyy implements Handle {
+export default class nnyy implements Handle {
   getConfig() {
     return <Iconfig>{
       id: "nnyy",
