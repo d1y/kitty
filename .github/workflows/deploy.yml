@@ -1,0 +1,58 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    
+    - name: Setup Bun
+      uses: oven-sh/setup-bun@v1
+      with:
+        bun-version: latest
+    
+    - name: Install dependencies
+      run: bun install
+    
+    - name: Generate configuration file
+      run: bun parse.js x.json
+    
+    - name: Verify generated file
+      run: |
+        if [ ! -f "x.json" ]; then
+          echo "Error: x.json was not generated"
+          exit 1
+        fi
+        echo "Generated x.json successfully"
+        ls -la x.json
+    
+    - name: Prepare deployment directory
+      run: |
+        mkdir -p deploy
+        cp x.json deploy/
+    
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: deploy
+        publish_branch: gh-pages
+        force_orphan: true
+        keep_files: false
+        commit_message: 'Deploy: Update configuration file'
+        user_name: 'github-actions[bot]'
+        user_email: 'github-actions[bot]@users.noreply.github.com'
