@@ -1,6 +1,8 @@
 import { writeFileSync } from 'fs'
 import { load } from 'cheerio'
 
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+
 export async function req(
   urlOrOptions: string | KittyRequestOptions,
   options?: Partial<KittyRequestOptions>
