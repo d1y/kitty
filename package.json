@@ -20,9 +20,7 @@
   "homepage": "https://github.com/d1y/kitty#readme",
   "dependencies": {
     "@types/kitty": "https://gitpkg.vercel.app/waifu-project/movie/JS/types?dev",
-    "@babel/generator": "^7.28.3",
-    "@babel/parser": "^7.28.4",
-    "@babel/traverse": "^7.28.4",
+    "kitty": "https://gitpkg.vercel.app/waifu-project/movie/JS/cli?dev",
     "cheerio": "^1.1.2",
     "typescript": "^5.9.2"
   }

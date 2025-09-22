@@ -32,7 +32,7 @@ jobs:
       run: bun install
     
     - name: Generate configuration file
-      run: bun parse.js x.json
+      run: bunx kitty-parse -o x.json
     
     - name: Verify generated file
       run: |
