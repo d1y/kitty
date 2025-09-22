@@ -44,12 +44,25 @@ export default class cnotv implements Handle {
     const title = $('.page-title').text() ?? ""
     const cover = $('.video-cover img').attr('data-src') ?? ""
     const desc = $(".video-info-item.video-info-content.vod_content span").text() ?? ""
-    const playlist: IPlaylist[] = []
-    $(".sort-item").toArray().forEach(item => {
-      const a = $(item).find("a")
-      const id = a.attr("href") ?? ""
-      const text = a.text() ?? ""
-      playlist.push({ id, text })
+    const tabs = $('.play-source-tab a, .module-tab-item').toArray().map(item => {
+      const name = $(item).attr("data-dropdown-value") ?? "默认"
+      return name
+    })
+    const playlistTable = $(".module-player-list").toArray().map(item => {
+      let id = $(item).attr("id") ?? ""
+      id = id.replace("glist-", "")
+      const list = $(item).find(".sort-item a").toArray().map(item => {
+        const text = ($(item).text() ?? "").trim()
+        const id = $(item).attr("href") ?? ""
+        return <IPlaylistVideo>{ text, id }
+      })
+      return { id: +id, list }
+    })
+    const playlist = tabs.map((item, index) => {
+      return <IPlaylist>{
+        title: item,
+        videos: playlistTable[index].list
+      }
     })
     return <IMovie>{ id, cover, title, remark: "", desc, playlist }
   }
@@ -79,15 +92,17 @@ export default class cnotv implements Handle {
 
 // TEST
 // const env = createTestEnv("https://cnotv.com")
-// const tv = new cnotv()
-//   ; (async () => {
-//     const cates = await tv.getCategory()
-//     env.set("category", cates[0].id)
-//     env.set("page", 1)
-//     const home = await tv.getHome()
-//     env.set('keyword', '我能')
-//     const search = await tv.getSearch()
-//     env.set("movieId", search[0].id)
-//     const detail = await tv.getDetail()
-//     debugger
-//   })()
+// const tv = new cnotv();
+// (async () => {
+//   const cates = await tv.getCategory()
+//   env.set("category", cates[0].id)
+//   env.set("page", 1)
+//   const home = await tv.getHome()
+//   env.set('keyword', '我能')
+//   const search = await tv.getSearch()
+//   env.set("movieId", search[0].id)
+//   const detail = await tv.getDetail()
+//   env.set("iframe", detail.playlist![0].videos[0].id)
+//   const realM3u8 = await tv.parseIframe()
+//   debugger
+// })()

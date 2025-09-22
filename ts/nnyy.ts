@@ -18,13 +18,13 @@ export default class nnyy implements Handle {
   async getCategory() {
     const html = await req(env.baseUrl)
     const $ = kitty.load(html)
-    return $(".item.nav-list li").toArray().map<ICategory | null>(item=> {
+    return $(".item.nav-list li").toArray().map<ICategory | null>(item => {
       const a = $(item).find("a")
       const text = a.text().trim()
       if (text == "首页") return null
       const id = (a.attr("href") ?? "").replace("/vodtype/", "").replace(".html", "")
       return { id, text }
-    }).filter(item=> !!item)
+    }).filter(item => !!item)
   }
   async getHome() {
     const cate = env.get("category")
@@ -32,7 +32,7 @@ export default class nnyy implements Handle {
     const url = `${env.baseUrl}/vodtype/${cate}-${page}.html`
     const html = await req(url)
     const $ = kitty.load(html)
-    return $(".myui-vodlist li").toArray().map<IMovie | null>(item=> {
+    return $(".myui-vodlist li").toArray().map<IMovie | null>(item => {
       const a = $(item).find("a.myui-vodlist__thumb")
       const title = a.attr("title") ?? ""
       const id = a.attr("href") ?? ""
@@ -51,15 +51,13 @@ export default class nnyy implements Handle {
     const title = a.attr("title") ?? ""
     const remark = $(".data .text-red").text() ?? ""
     const desc = $(".data p").text() ?? ""
-    // FIXME(d1y): 如果是多源的话就惨了
-    // > 壳的通用解析需要适配 Map<string, IPlaylist[]>
-    const playlist: IPlaylist[] = $(".myui-content__list.sort-list li").toArray().map(item=> {
+    const player: IPlaylistVideo[] = $(".myui-content__list.sort-list li").toArray().map(item => {
       const a = $(item).find("a")
       const text = a.text() ?? ""
       const id = a.attr("href") ?? ""
-      return { id, text}
+      return { id, text }
     })
-    return <IMovie>{ id, cover, title, desc, remark, playlist: playlist }
+    return <IMovie>{ id, cover, title, desc, remark, playlist: [{ title: "百度资源", videos: player }] }
   }
   async getSearch() {
     const wd = env.get("keyword")
@@ -68,7 +66,7 @@ export default class nnyy implements Handle {
     // 这里可能有CF墙(只需要附带CF-id即可)
     const html = await req(url)
     const $ = kitty.load(html)
-    return $(".myui-vodlist__media li").toArray().map<IMovie>(item=> {
+    return $(".myui-vodlist__media li").toArray().map<IMovie>(item => {
       const a = $(item).find("a.myui-vodlist__thumb")
       const title = a.attr("title") ?? ""
       const id = a.attr("href") ?? ""

@@ -31,7 +31,7 @@ export default class taiav implements Handle {
     url += `?page=${page}`
     const html = await req(url)
     const $ = kitty.load(html)
-    return $(`.videos-lists .movie-card`).toArray().map<IMovie | null>(item=> {
+    return $(`.videos-lists .movie-card`).toArray().map<IMovie | null>(item => {
       const a = $(item).find('.uk-card-body a')
       const id = a.attr('href') ?? ""
       if (!id.startsWith("/cn/movie")) return null
@@ -44,9 +44,8 @@ export default class taiav implements Handle {
         cover,
         title,
         remark,
-        playlist: [],
       }
-    }).filter(item=> !!item)
+    }).filter(item => !!item)
   }
   async getDetail() {
     const id = env.get<string>('movieId')
@@ -59,24 +58,28 @@ export default class taiav implements Handle {
     const m3u8API = `${env.baseUrl}/api/getmovie?type=1280&id=${realId}`
     const player = await req(m3u8API)
     const { m3u8 } = JSON.parse(player)
-    const remark = $('.uk-padding-small .uk-grid-small.uk-grid div').toArray().map(item=> {
+    const remark = $('.uk-padding-small .uk-grid-small.uk-grid div').toArray().map(item => {
       return $(item).text()
     }).join(',')
+    const play: IPlaylist = {
+      title: "默认",
+      videos: [
+        { text: '高清', url: `${env.baseUrl}${m3u8}` }
+      ]
+    }
     return <IMovie>{
       id,
       title,
       cover,
       remark,
-      playlist: [
-        <IPlaylist>{ text: '高清', url: `${env.baseUrl}${m3u8}` }
-      ]
+      playlist: [play]
     }
   }
   async getSearch() {
     const url = `${env.baseUrl}/cn/search?q=${env.get('keyword')}&page=${env.get('page')}`
     const html = await req(url)
     const $ = kitty.load(html)
-    return $(`.videos-lists .movie-card`).toArray().map<IMovie | null>(item=> {
+    return $(`.videos-lists .movie-card`).toArray().map<IMovie | null>(item => {
       const a = $(item).find('.uk-card-body a')
       const id = a.attr('href') ?? ""
       if (!id.startsWith("/cn/movie")) return null
@@ -89,9 +92,8 @@ export default class taiav implements Handle {
         cover,
         title,
         remark,
-        playlist: [],
       }
-    }).filter(item=> !!item)
+    }).filter(item => !!item)
   }
 }
 

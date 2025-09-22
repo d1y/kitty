@@ -49,7 +49,7 @@ export default class chaojisousuo14 implements Handle {
     const html = await req(`${env.baseUrl}${id}`)
     const $ = kitty.load(html)
     const img = $(".pull-left.pull-left-mobile1 img.lazy")
-    const playlist: IPlaylist[] = $("#playlist4 tr").toArray().map((item) => {
+    const player: IPlaylistVideo[] = $("#playlist4 tr").toArray().map((item) => {
       const a = $(item).find("a")
       const id = a.attr("href") ?? ""
       const text = a.text()
@@ -59,7 +59,7 @@ export default class chaojisousuo14 implements Handle {
       title: img.attr("title") ?? "",
       cover: img.attr("src") ?? "",
       id: id,
-      playlist,
+      playlist: [{ title: "默认", videos: player }],
     }
   }
   async getSearch() {

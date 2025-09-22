@@ -44,7 +44,7 @@ export default class JS999tv implements Handle {
     const title = $(".module-info-heading h1").text()
     const cover = $(".ls-is-cached.lazy.lazyload").attr("data-original") ?? ""
     // FIXME(d1y): 多源
-    const playlist: IPlaylist[] = $(".module-play-list-link").toArray().map(item=> {
+    const player: IPlaylistVideo[] = $(".module-play-list-link").toArray().map(item=> {
       const text = $(item).text()
       const id = $(item).attr("href") ?? ""
       return { text, id }
@@ -55,7 +55,7 @@ export default class JS999tv implements Handle {
       cover,
       desc,
       remark: "",
-      playlist,
+      playlist: [{ title: "999TV", videos: player }],
     }
   }
   async getSearch() {

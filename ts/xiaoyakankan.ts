@@ -52,22 +52,34 @@ export default class xiaoyakankan implements Handle {
     }
     const title = img.attr("alt") ?? ""
     let desc = $(".more .info:last-of-type").text() ?? ""
-    desc = desc.replace("简介：", "")
+    const kPrefix = "简介："
+    if (desc.startsWith(kPrefix)) {
+      desc = desc.replace(kPrefix, "")
+    } else {
+      desc = ""
+    }
     const playlist: IPlaylist[] = []
     for (const script of $("body script").toArray()) {
       let cx = $(script).text() ?? ""
       if (!cx || !cx.includes("var pp")) continue
       cx = cx.replace("var pp=", "")
       if (cx.endsWith(";")) cx = cx.slice(0, -1)//删除结尾的分号
-      // FIXME(d1y): 我不确定上游的 flutter_js 支不支持执行 eval
-      // 如果不支持的话, 最好的方法在上游暴露一个 $eval 方法
-      // 在 dart 端处理了之后, 返回给 JS 在做后续的处理
-      /** @type {{ lines: Array<[null, string, null, [string]]> }} */
-      const unsafeJSObj = eval(`(${cx})`)
+      const unsafeJSObj: {
+        lines: Array<
+          [string, string, string, string[]]
+        >
+      } = eval(`(${cx})`)
       for (const line of unsafeJSObj.lines) {
+        const _id = line[0]
         const text = line[1]
-        const url = line[3][0]
-        playlist.push({ text, url })
+        const urls = line[3]
+        const videos = $(`div[data-vod='${_id}'] .list a`).toArray().map((item, index) => {
+          const text = $(item).text().trim()
+          const idx = +($(item).attr("data-sou_idx") ?? "0")
+          const realUrl = urls[idx]
+          return <IPlaylistVideo>{ text, url: realUrl }
+        })
+        playlist.push({ title: text, videos })
       }
     }
     return <IMovie>{
@@ -75,7 +87,6 @@ export default class xiaoyakankan implements Handle {
       title,
       cover,
       desc,
-      remark: "",
       playlist,
     }
   }
@@ -83,8 +94,8 @@ export default class xiaoyakankan implements Handle {
 
 // TEST
 // const env = createTestEnv("https://xiaoyakankan.com")
-// const xy = new xiaoyakankan()
-// ;(async () => {
+// const xy = new xiaoyakankan();
+// (async () => {
 //   const cate = await xy.getCategory()
 //   env.set("category", cate[0].id)
 //   env.set("page", 1)
