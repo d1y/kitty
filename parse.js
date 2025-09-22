@@ -91,28 +91,79 @@ function parseWithStr(rawCode) {
           // 解析所有相关方法
           const methodName = methodPath.node.key?.name;
           if (['getCategory', 'getHome', 'getDetail', 'getSearch', 'parseIframe'].includes(methodName)) {
-            // 只生成函数体内容，不包括方法名和大括号
-            if (methodPath.node.body && methodPath.node.body.type === 'BlockStatement') {
-              const { code } = generator(methodPath.node.body, {
-                compact: true,    // 启用压缩模式
-                minified: true,   // 生成最小化代码
-                comments: false   // 移除注释
+            // 根据方法名映射到配置字段
+            const methodMapping = {
+              'getCategory': 'category',
+              'getHome': 'home',
+              'getDetail': 'detail',
+              'getSearch': 'search',
+              'parseIframe': 'parseIframe'
+            };
+
+            const configKey = methodMapping[methodName];
+            if (!configKey) return;
+
+            // 特殊处理 getCategory - 检查是否直接返回数组
+            if (methodName === 'getCategory') {
+              // 查找 return 语句
+              methodPath.traverse({
+                ReturnStatement(returnPath) {
+                  const returnArg = returnPath.node.argument;
+
+                  // 检查是否直接返回数组
+                  if (returnArg && (returnArg.type === 'ArrayExpression' ||
+                    (returnArg.type === 'TSTypeAssertion' && returnArg.expression.type === 'ArrayExpression') ||
+                    (returnArg.type === 'TSAsExpression' && returnArg.expression.type === 'ArrayExpression'))) {
+
+                    // 提取数组表达式
+                    let arrayExpr = returnArg;
+                    if (returnArg.type === 'TSTypeAssertion' || returnArg.type === 'TSAsExpression') {
+                      arrayExpr = returnArg.expression;
+                    }
+
+                    // 将数组转换为实际的 JavaScript 对象
+                    try {
+                      const { code: arrayCode } = generator(arrayExpr, {
+                        compact: true,
+                        minified: true,
+                        comments: false
+                      });
+
+                      // 使用 eval 来解析数组（在安全的环境中）
+                      const categoryArray = eval(arrayCode);
+                      methodCodes[configKey] = categoryArray;
+                    } catch (error) {
+                      // 如果解析失败，回退到函数体代码
+                      const { code } = generator(methodPath.node.body, {
+                        compact: true,
+                        minified: true,
+                        comments: false
+                      });
+                      methodCodes[configKey] = code.replace(/^\{/, '').replace(/\}$/, '');
+                    }
+                  } else {
+                    // 不是直接返回数组，使用函数体代码
+                    const { code } = generator(methodPath.node.body, {
+                      compact: true,
+                      minified: true,
+                      comments: false
+                    });
+                    methodCodes[configKey] = code.replace(/^\{/, '').replace(/\}$/, '');
+                  }
+                  returnPath.stop();
+                }
               });
+            } else {
+              // 其他方法正常处理
+              if (methodPath.node.body && methodPath.node.body.type === 'BlockStatement') {
+                const { code } = generator(methodPath.node.body, {
+                  compact: true,
+                  minified: true,
+                  comments: false
+                });
 
-              // 移除外层的大括号，只保留函数体内容
-              let cleanCode = code.replace(/^\{/, '').replace(/\}$/, '');
-
-              // 根据方法名映射到配置字段
-              const methodMapping = {
-                'getCategory': 'category',
-                'getHome': 'home',
-                'getDetail': 'detail',
-                'getSearch': 'search',
-                'parseIframe': 'parseIframe'
-              };
-
-              const configKey = methodMapping[methodName];
-              if (configKey) {
+                // 移除外层的大括号，只保留函数体内容
+                let cleanCode = code.replace(/^\{/, '').replace(/\}$/, '');
                 methodCodes[configKey] = cleanCode;
               }
             }
@@ -222,7 +273,7 @@ if (outputFile) {
   // console.log(`总共解析出 ${allConfigs.length} 个有效配置`)
   // console.log('\n完整配置数组:')
   // console.log(JSON.stringify(allConfigs, null, 2))
-  
+
   console.log(`扫描完成，找到 ${allConfigs.length} 个有效配置`)
   console.log('使用方法: bun parse.js [输出文件名] 来将结果保存到文件')
 }
