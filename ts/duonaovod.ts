@@ -1,4 +1,4 @@
-import { kitty, req, createTestEnv } from 'utils'
+// import { kitty, req, createTestEnv } from 'utils'
 
 export default class duonaovod implements Handle {
   getConfig() {
@@ -217,18 +217,18 @@ export default class duonaovod implements Handle {
 }
 
 // TEST
-const env = createTestEnv("https://www.duonaovod.com")
-const tv = new duonaovod();
-(async () => {
-  const cates = await tv.getCategory()
-  env.set("category", cates[0].id)
-  env.set("page", 1)
-  const home = await tv.getHome()
-  env.set('keyword', '我能')
-  const search = await tv.getSearch()
-  env.set("movieId", search[0].id)
-  const detail = await tv.getDetail()
-  env.set("iframe", detail.playlist![0].videos[0].id)
-  const realM3u8 = await tv.parseIframe()
-  debugger
-})()
+// const env = createTestEnv("https://www.duonaovod.com")
+// const tv = new duonaovod();
+// (async () => {
+//   const cates = await tv.getCategory()
+//   env.set("category", cates[0].id)
+//   env.set("page", 1)
+//   const home = await tv.getHome()
+//   env.set('keyword', '我能')
+//   const search = await tv.getSearch()
+//   env.set("movieId", search[0].id)
+//   const detail = await tv.getDetail()
+//   env.set("iframe", detail.playlist![0].videos[0].id)
+//   const realM3u8 = await tv.parseIframe()
+//   debugger
+// })()
