@@ -1,6 +1,6 @@
 // import { kitty, req, createTestEnv } from 'utils'
 
-export class feituys implements Handle {
+export default class feituys implements Handle {
   getConfig() {
     return <Iconfig>{
       id: "feituys",
