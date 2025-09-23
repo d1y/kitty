@@ -208,9 +208,9 @@ export default class duonaovod implements Handle {
 
     // 逆向自 https://www.duonaovod.com/static/js/player.js?t=a20250923
     if (unsafeObj.encrypt == '1') {
-      unsafeObj.url = unescape(unsafeObj.url);
+      unsafeObj.url = customUnescape(unsafeObj.url);
     } else if (unsafeObj.encrypt == '2') {
-      unsafeObj.url = unescape(base64Decode(unsafeObj.url));
+      unsafeObj.url = customUnescape(base64Decode(unsafeObj.url));
     }
     return unsafeObj.url
   }
