@@ -3,7 +3,7 @@
 小猫影视扩展源, @d1y 自用
 
 ```bash
-bunx kitty-parse result.json
+bunx kitty-parse -o result.json
 # http://192.168.1.x:8080/result.json
 npx http-server
 ```
