@@ -16,15 +16,100 @@ export default class nnyy implements Handle {
   }
 
   async getCategory() {
-    const html = await req(env.baseUrl)
-    const $ = kitty.load(html)
-    return $(".item.nav-list li").toArray().map<ICategory | null>(item => {
-      const a = $(item).find("a")
-      const text = a.text().trim()
-      if (text == "首页") return null
-      const id = (a.attr("href") ?? "").replace("/vodtype/", "").replace(".html", "")
-      return { id, text }
-    }).filter(item => !!item)
+    return [
+      {
+        "id": "1",
+        "text": "电影"
+      },
+      {
+        "id": "2",
+        "text": "电视剧"
+      },
+      {
+        "id": "3",
+        "text": "综艺"
+      },
+      {
+        "id": "4",
+        "text": "动漫"
+      },
+      {
+        "id": "40",
+        "text": "短剧"
+      },
+      {
+        "id": "20",
+        "text": "动画片"
+      },
+      {
+        "id": "6",
+        "text": "动作片"
+      },
+      {
+        "id": "7",
+        "text": "喜剧片"
+      },
+      {
+        "id": "8",
+        "text": "爱情片"
+      },
+      {
+        "id": "9",
+        "text": "科幻片"
+      },
+      {
+        "id": "10",
+        "text": "恐怖片"
+      },
+      {
+        "id": "11",
+        "text": "剧情片"
+      },
+      {
+        "id": "12",
+        "text": "战争片"
+      },
+      {
+        "id": "21",
+        "text": "奇幻片"
+      },
+      {
+        "id": "22",
+        "text": "犯罪片"
+      },
+      {
+        "id": "23",
+        "text": "悬疑片"
+      },
+      {
+        "id": "24",
+        "text": "纪录片"
+      },
+      {
+        "id": "25",
+        "text": "邵氏电影"
+      },
+      {
+        "id": "13",
+        "text": "国产剧"
+      },
+      {
+        "id": "14",
+        "text": "香港剧"
+      },
+      {
+        "id": "15",
+        "text": "台湾剧"
+      },
+      {
+        "id": "16",
+        "text": "日本剧"
+      },
+      {
+        "id": "26",
+        "text": "韩国剧"
+      }
+    ]
   }
   async getHome() {
     const cate = env.get("category")
@@ -59,22 +144,22 @@ export default class nnyy implements Handle {
     })
     return <IMovie>{ id, cover, title, desc, remark, playlist: [{ title: "百度资源", videos: player }] }
   }
-  async getSearch() {
-    const wd = env.get("keyword")
-    const page = env.get("page")
-    const url = `${env.baseUrl}/vodsearch/${wd}----------${page}---.html`
-    // 这里可能有CF墙(只需要附带CF-id即可)
-    const html = await req(url)
-    const $ = kitty.load(html)
-    return $(".myui-vodlist__media li").toArray().map<IMovie>(item => {
-      const a = $(item).find("a.myui-vodlist__thumb")
-      const title = a.attr("title") ?? ""
-      const id = a.attr("href") ?? ""
-      const remark = a.find(".pic-text.text-right").text() ?? ""
-      const cover = a.attr("data-original") ?? ""
-      return { title, id, remark, cover, playlist: [] }
-    })
-  }
+  // async getSearch() {
+  //   const wd = env.get("keyword")
+  //   const page = env.get("page")
+  //   const url = `${env.baseUrl}/vodsearch/${wd}----------${page}---.html`
+  //   // 这里可能有CF墙(只需要附带CF-id即可)
+  //   const html = await req(url)
+  //   const $ = kitty.load(html)
+  //   return $(".myui-vodlist__media li").toArray().map<IMovie>(item => {
+  //     const a = $(item).find("a.myui-vodlist__thumb")
+  //     const title = a.attr("title") ?? ""
+  //     const id = a.attr("href") ?? ""
+  //     const remark = a.find(".pic-text.text-right").text() ?? ""
+  //     const cover = a.attr("data-original") ?? ""
+  //     return { title, id, remark, cover, playlist: [] }
+  //   })
+  // }
   async parseIframe() {
     const iframe = env.get<string>("iframe")
     const html = await req(`${env.baseUrl}${iframe}`)
