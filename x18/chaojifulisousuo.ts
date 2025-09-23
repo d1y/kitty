@@ -4,7 +4,7 @@ export default class chaojisousuo14 implements Handle {
   getConfig() {
     return <Iconfig>{
       id: 'chaojifulisousuo',
-      name: '超级福利搜索',
+      name: '超级福利',
       type: 1,
       api: 'https://chaojisousuo14.buzz',
       nsfw: true,
