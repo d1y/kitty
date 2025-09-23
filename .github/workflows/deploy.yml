@@ -32,21 +32,14 @@ jobs:
       run: bun install
     
     - name: Generate configuration file
-      run: bunx kitty-parse -o x.json
-    
-    - name: Verify generated file
       run: |
-        if [ ! -f "x.json" ]; then
-          echo "Error: x.json was not generated"
-          exit 1
-        fi
-        echo "Generated x.json successfully"
-        ls -la x.json
+        bunx kitty-parse -o x.json
+        bun run vod.ts vod.json xvod.json
     
     - name: Prepare deployment directory
       run: |
         mkdir -p deploy
-        cp x.json deploy/
+        cp x.json vod.json xvod.json deploy/
     
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
