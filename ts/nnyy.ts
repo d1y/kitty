@@ -8,7 +8,6 @@ export default class nnyy implements Handle {
     return <Iconfig>{
       id: "nnyy",
       name: "努努影院",
-      desc: "子域名",
       api: "https://www.huibangpaint.com",
       nsfw: false,
       type: 1,
