@@ -68,7 +68,18 @@ export async function req(
   return await response.text()
 }
 
-export const kitty: Kitty = { load }
+export const kitty: Kitty = {
+  load,
+  utils: {
+    async getM3u8WithIframe(env) {
+      const iframe = env.get<string>("iframe")
+      const html = await req(`${env.baseUrl}${iframe}`)
+      const m3u8 = html.match(/"url"\s*:\s*"([^"]+\.m3u8)"/)![1]
+      const realM3u8 = m3u8.replaceAll("\\/", "/")
+      return realM3u8
+    }
+  }
+}
 
 type safeSet = (key: KittyEnvParams, value: any) => void
 

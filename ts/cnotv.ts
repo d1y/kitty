@@ -82,11 +82,7 @@ export default class cnotv implements Handle {
     })
   }
   async parseIframe() {
-    const iframe = env.get<string>("iframe")
-    const html = await req(`${env.baseUrl}${iframe}`)
-    const m3u8 = html.match(/"url"\s*:\s*"([^"]+\.m3u8)"/)![1]
-    const m3u8Str = m3u8.replaceAll("\\/", "/")
-    return m3u8Str
+    return kitty.utils.getM3u8WithIframe(env)
   }
 }
 
