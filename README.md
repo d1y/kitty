@@ -15,3 +15,9 @@ npx http-server
 - JS: https://d1y.github.io/kitty/x.json
 - vod: https://d1y.github.io/kitty/vod.json
 - xvod: https://d1y.github.io/kitty/xvod.json
+
+```log
+https://d1y.github.io/kitty/x.json
+https://d1y.github.io/kitty/vod.json
+https://d1y.github.io/kitty/xvod.json
+```
