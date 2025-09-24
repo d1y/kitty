@@ -12,7 +12,10 @@
       "program": "${file}",
       "cwd": "${workspaceFolder}",
       "stopOnEntry": false,
-      "watchMode": false
+      "watchMode": false,
+      "env": {
+        "NODE_TLS_REJECT_UNAUTHORIZED": "0"
+      }
     },
     {
       "type": "bun",
@@ -22,7 +25,10 @@
       "program": "${file}",
       "cwd": "${workspaceFolder}",
       "noDebug": true,
-      "watchMode": false
+      "watchMode": false,
+      "env": {
+        "NODE_TLS_REJECT_UNAUTHORIZED": "0"
+      }
     },
     {
       "type": "bun",
