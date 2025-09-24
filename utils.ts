@@ -59,6 +59,11 @@ export async function req(
     }
   }
 
+  if (finalOptions.bodyType === 'form') {
+    body = new URLSearchParams(finalOptions.data as Record<string, string>).toString()
+    finalOptions.headers['Content-Type'] = 'application/x-www-form-urlencoded'
+  }
+
   const response = await fetch(url, {
     method: finalOptions.method,
     headers: finalOptions.headers,
