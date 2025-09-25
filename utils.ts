@@ -38,6 +38,9 @@ export async function req(
   if (!finalOptions.headers) {
     finalOptions.headers = {}
   }
+  if (!finalOptions.data) {
+    finalOptions.data = {}
+  }
   
   if (finalOptions.params && Object.keys(finalOptions.params).length > 0) {
     if (finalOptions.method === 'GET') {

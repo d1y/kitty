@@ -48,7 +48,7 @@ export default class VV99KK implements Handle {
   getConfig() {
     return <Iconfig>{
       id: 'vv99kk',
-      name: 'VV99KK',
+      name: '熊猫视频',
       // api: 'https://www.vv99kk.com',
       api: `https://spiderscloudcn2.51111666.com`,
       type: 1,
