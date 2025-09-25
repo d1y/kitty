@@ -134,6 +134,7 @@ export default class 黑料网 implements Handle {
       let cover = $(item).find("img").attr("src") ?? ""
       cover = `${env.baseUrl}${cover}`
       const title = $(item).find("h3").text().trim()
+      if (!title) return null
       return { id, cover, title }
     }).filter(item=> !!item)
   }

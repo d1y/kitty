@@ -1,5 +1,15 @@
 // import { kitty, req, createTestEnv } from 'utils'
 
+// FIXME(d1y): 该源中的封面无法显示, 封面是加密过的
+// 解密JS: https://041.bndmpsjx.com/assets/js/image.js?v=202412170500
+// ↑↑↑↑↑↑↑↑↑ 关键点在 `function(el, decryptjs, cryptojs, fetchjs)` 这里
+/**
+  fileReader.onload = ({target: {result: ebase64Image}}) => {
+    resolve(`${decryptjs(ebase64Image.split(',').pop(), cryptojs())}`)
+  }
+ */
+// 我比较怀疑是否能在 JS 端解密了, 然后返回 base64/image 过去
+// 内存过载了会不会直接崩溃?
 export default class Re91Jav implements Handle {
   getConfig() {
     return <Iconfig>{
@@ -74,6 +84,7 @@ export default class Re91Jav implements Handle {
       const title = $(element).find('.title a').text()
       const cover = $(element).find('.zximg').attr('z-image-loader-url') ?? ""
       const subTitle = $(element).find('.label').text()
+      if (subTitle == "广告") return
       cards.push({
         vod_id: href,
         vod_name: title,
@@ -100,7 +111,11 @@ export default class Re91Jav implements Handle {
     const $ = kitty.load(html)
     const title = $("title").text()
     const cover = $("video").attr("data-src") ?? ""
-    const m3u8 = html.match(/var hlsUrl = "(.*?)";/)![1]
+    let m3u8 = html.match(/var hlsUrl = "(.*?)";/)![1]
+    if (m3u8.startsWith("/")) {
+      // m3u8 = `${env.baseUrl}${m3u8}`
+      m3u8 = `https://hls.usoryy.cn${m3u8}`
+    }
     return <IMovie>{
       id, title, cover, playlist: [
         {
@@ -132,6 +147,7 @@ export default class Re91Jav implements Handle {
       const title = $(element).find('.title a').text()
       const cover = env.baseUrl + $(element).find('img').attr('z-image-loader-url')
       const subTitle = $(element).find('.label').text()
+      if (subTitle == "广告") return
       cards.push({
         vod_id: href,
         vod_name: title,

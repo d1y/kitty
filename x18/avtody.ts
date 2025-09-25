@@ -42,7 +42,8 @@ export default class Avtody implements Handle {
       })
     })
     return list.filter(item => !!item.ext.url).map<ICategory>((item: any) => {
-      return { text: item.name, id: item.ext.url }
+      let text = item.name.replace(/\(\d*\)/, "")
+      return { text, id: item.ext.url }
     })
   }
   async getHome() {
