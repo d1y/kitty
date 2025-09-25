@@ -38,7 +38,7 @@ export async function req(
   if (!finalOptions.headers) {
     finalOptions.headers = {}
   }
-
+  
   if (finalOptions.params && Object.keys(finalOptions.params).length > 0) {
     if (finalOptions.method === 'GET') {
       const urlObj = new URL(url)
@@ -46,22 +46,17 @@ export async function req(
         urlObj.searchParams.set(key, String(value))
       })
       url = urlObj.toString()
-    } else {
-      if (!finalOptions.headers['Content-Type']) {
-        finalOptions.headers['Content-Type'] = 'application/x-www-form-urlencoded'
-      }
-
-      if (finalOptions.headers['Content-Type'] === 'application/json') {
-        body = JSON.stringify(finalOptions.params)
-      } else {
-        body = new URLSearchParams(finalOptions.params as Record<string, string>).toString()
-      }
     }
   }
 
-  if (finalOptions.bodyType === 'form') {
-    body = new URLSearchParams(finalOptions.data as Record<string, string>).toString()
-    finalOptions.headers['Content-Type'] = 'application/x-www-form-urlencoded'
+  if (Object.keys(finalOptions.data).length >= 1) {
+    if (finalOptions.bodyType === 'form') {
+      finalOptions.headers['Content-Type'] = 'application/x-www-form-urlencoded'
+      body = new URLSearchParams(finalOptions.data as Record<string, string>).toString()
+    } else {
+      finalOptions.headers['Content-Type'] = 'application/json'
+      body = JSON.stringify(finalOptions.data)
+    }
   }
 
   const response = await fetch(url, {
