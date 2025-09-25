@@ -6,7 +6,7 @@ interface IGetInfoBody {
   content: string
   languageType: "CN"
   pageNumber: number
-  typeId: number
+  typeId: number | string
   typeMid: 1
   type?: 1
 }
@@ -160,13 +160,14 @@ export default class VV99KK implements Handle {
     const page = env.get("page")
     const unsafeObj: IInfoResponse = JSON.parse(await req(`${env.baseUrl}/forward`, {
       method: "POST",
+      cache: false,
       data: <IGetInfoBody>{
         RecordsPage: 20,
         command: "WEB_GET_INFO",
         content: "",
         languageType: "CN",
         pageNumber: page,
-        typeId: +cate,
+        typeId: cate,
         typeMid: 1,
       }
     }))
@@ -183,6 +184,7 @@ export default class VV99KK implements Handle {
     const id = env.get<string>("movieId")
     const response: IDetailResponse = JSON.parse(await req(`${env.baseUrl}/forward`, {
       method: "POST",
+      cache: false,
       data: <IGetDetailBody>{
         command: "WEB_GET_INFO_DETAIL",
         id,
@@ -254,6 +256,7 @@ export default class VV99KK implements Handle {
     const page = env.get("page")
     const unsafeObj: IInfoResponse = JSON.parse(await req(`${env.baseUrl}/forward`, {
       method: "POST",
+      cache: false,
       data: <IGetInfoBody>{
         RecordsPage: 20,
         command: "WEB_GET_INFO",
