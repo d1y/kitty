@@ -160,7 +160,7 @@ export default class VV99KK implements Handle {
     const page = env.get("page")
     const unsafeObj: IInfoResponse = JSON.parse(await req(`${env.baseUrl}/forward`, {
       method: "POST",
-      cache: false,
+      noCache: true,
       data: <IGetInfoBody>{
         RecordsPage: 20,
         command: "WEB_GET_INFO",
@@ -184,7 +184,7 @@ export default class VV99KK implements Handle {
     const id = env.get<string>("movieId")
     const response: IDetailResponse = JSON.parse(await req(`${env.baseUrl}/forward`, {
       method: "POST",
-      cache: false,
+      noCache: true,
       data: <IGetDetailBody>{
         command: "WEB_GET_INFO_DETAIL",
         id,
@@ -256,7 +256,7 @@ export default class VV99KK implements Handle {
     const page = env.get("page")
     const unsafeObj: IInfoResponse = JSON.parse(await req(`${env.baseUrl}/forward`, {
       method: "POST",
-      cache: false,
+      noCache: true,
       data: <IGetInfoBody>{
         RecordsPage: 20,
         command: "WEB_GET_INFO",
