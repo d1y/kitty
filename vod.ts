@@ -639,16 +639,6 @@ const nsfwVods = [
     },
   },
   {
-    id: "siwazyw.tv",
-    name: "丝袜资源",
-    api: "https://www.siwazyw.tv/api.php/provide/vod",
-    nsfw: true,
-    type: 0,
-    extra: {
-      gfw: false,
-    },
-  },
-  {
     id: "api.bwzyz.com",
     name: "百万资源站",
     api: "https://api.bwzyz.com/api.php/provide/vod/at/json",
