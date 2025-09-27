@@ -1,0 +1,1203 @@
+[
+  {
+    "id": "999tv",
+    "name": "999tv",
+    "api": "https://999tv.app",
+    "type": 1,
+    "nsfw": false,
+    "extra": {
+      "js": {
+        "category": [
+          {
+            "text": "电影",
+            "id": "20"
+          },
+          {
+            "text": "连续剧",
+            "id": "21"
+          },
+          {
+            "text": "综艺片",
+            "id": "22"
+          },
+          {
+            "text": "伦理片",
+            "id": "23"
+          },
+          {
+            "text": "动漫片",
+            "id": "24"
+          },
+          {
+            "text": "短剧大片",
+            "id": "25"
+          },
+          {
+            "text": "体育赛事",
+            "id": "26"
+          }
+        ],
+        "home": "const cate=env.get(\"category\");const page=env.get(\"page\");const url=`${env.baseUrl}/index.php/vod/show/id/${cate}/page/${page}.html`;const html=await req(url);const $=kitty.load(html);return $(\".module a.module-poster-item.module-item\").toArray().map(item=>{const id=$(item).attr(\"href\")??\"\";const title=$(item).attr(\"title\")??\"\";const remark=$(item).find(\".module-item-note\").text()??\"\";const cover=$(item).find(\".lazy.lazyload\").attr(\"data-original\")??\"\";return{id,title,cover,remark,playlist:[]}})",
+        "detail": "const id=env.get(\"movieId\");const url=`${env.baseUrl}${id}`;const html=await req(url);const $=kitty.load(html);const desc=$(\".show-desc\").text();const title=$(\".module-info-heading h1\").text();const cover=$(\".ls-is-cached.lazy.lazyload\").attr(\"data-original\")??\"\";const player=$(\".module-play-list-link\").toArray().map(item=>{const text=$(item).text();const id=$(item).attr(\"href\")??\"\";return{text,id}});return{id,title,cover,desc,remark:\"\",playlist:[{title:\"999TV\",videos:player}]}",
+        "search": "const wd=env.get(\"keyword\");const page=env.get(\"page\");const url=`${env.baseUrl}/index.php/vod/search/page/${page}/wd/${wd}.html`;const html=await req(url);const $=kitty.load(html);return $(\".module-items.module-card-items .module-card-item\").toArray().map(item=>{const a=$(item).find(\"a.module-card-item-poster\");const img=$(item).find(\"img\");const id=a.attr(\"href\")??\"\";const title=img.attr(\"alt\")??\"\";const cover=img.attr(\"data-original\")??\"\";const remark=$(item).find(\".module-card-item-class\").text();return{id,title,cover,remark,playlist:[]}})",
+        "parseIframe": "return kitty.utils.getM3u8WithIframe(env)"
+      }
+    }
+  },
+  {
+    "id": "cnotv",
+    "name": "明月影视",
+    "api": "https://cnotv.com",
+    "nsfw": false,
+    "type": 1,
+    "extra": {
+      "js": {
+        "category": [
+          {
+            "text": "电影",
+            "id": "1"
+          },
+          {
+            "text": "电视剧",
+            "id": "2"
+          },
+          {
+            "text": "综艺",
+            "id": "3"
+          },
+          {
+            "text": "动漫",
+            "id": "4"
+          },
+          {
+            "text": "体育记录",
+            "id": "5"
+          },
+          {
+            "text": "短剧",
+            "id": "51"
+          }
+        ],
+        "home": "const cate=env.get(\"category\");const page=env.get(\"page\");const url=`${env.baseUrl}/vodshow/${cate}--------${page}---.html`;const html=await req(url);const $=kitty.load(html);return $($(\".module .module-list\").toArray()[0]).find(\".module-items .module-item\").toArray().map(item=>{const a=$(item).find(\"a\");const img=$(item).find(\"img\");const id=a.attr(\"href\")??\"\";const cover=img.attr(\"data-src\")??\"\";const title=img.attr(\"alt\")??\"\";const remark=$(item).find(\".module-item-text\").text()??\"\";return{id,title,cover,remark,playlist:[]}})",
+        "detail": "const id=env.get(\"movieId\");const url=`${env.baseUrl}${id}`;const html=await req(url);const $=kitty.load(html);const title=$(\".page-title\").text()??\"\";const cover=$(\".video-cover img\").attr(\"data-src\")??\"\";const desc=$(\".video-info-item.video-info-content.vod_content span\").text()??\"\";const tabs=$(\".play-source-tab a, .module-tab-item\").toArray().map(item=>{const name=$(item).attr(\"data-dropdown-value\")??\"\\u9ED8\\u8BA4\";return name});const playlistTable=$(\".module-player-list\").toArray().map(item=>{let id=$(item).attr(\"id\")??\"\";id=id.replace(\"glist-\",\"\");const list=$(item).find(\".sort-item a\").toArray().map(item=>{const text=($(item).text()??\"\").trim();const id=$(item).attr(\"href\")??\"\";return{text,id}});return{id:+id,list}});const playlist=tabs.map((item,index)=>{return{title:item,videos:playlistTable[index].list}});return{id,cover,title,remark:\"\",desc,playlist}",
+        "search": "const wd=env.get(\"keyword\");const page=env.get(\"page\");const url=`${env.baseUrl}/vodsearch/${wd}----------${page}---.html`;const html=await req(url);const $=kitty.load(html);return $(\".module-search-item\").toArray().map(item=>{const a=$(item).find(\"a\");const img=$(item).find(\"img\");const id=a.attr(\"href\")??\"\";const title=a.attr(\"title\")??\"\";const cover=img.attr(\"data-src\")??\"\";return{id,title,cover,remark:\"\",desc:\"\",playlist:[]}})",
+        "parseIframe": "return kitty.utils.getM3u8WithIframe(env)"
+      }
+    }
+  },
+  {
+    "id": "duonaovod",
+    "name": "多瑙影院",
+    "api": "https://www.duonaovod.com",
+    "nsfw": false,
+    "type": 1,
+    "extra": {
+      "js": {
+        "category": [
+          {
+            "text": "电影",
+            "id": "1"
+          },
+          {
+            "text": "电视剧",
+            "id": "2"
+          },
+          {
+            "text": "综艺",
+            "id": "3"
+          },
+          {
+            "text": "动漫",
+            "id": "4"
+          },
+          {
+            "text": "短剧",
+            "id": "57"
+          },
+          {
+            "text": "动作片",
+            "id": "6"
+          },
+          {
+            "text": "喜剧片",
+            "id": "7"
+          },
+          {
+            "text": "爱情片",
+            "id": "8"
+          },
+          {
+            "text": "科幻片",
+            "id": "9"
+          },
+          {
+            "text": "恐怖片",
+            "id": "10"
+          },
+          {
+            "text": "剧情片",
+            "id": "11"
+          },
+          {
+            "text": "奇幻片",
+            "id": "30"
+          },
+          {
+            "text": "战争片",
+            "id": "12"
+          },
+          {
+            "text": "犯罪片",
+            "id": "54"
+          },
+          {
+            "text": "动漫电影",
+            "id": "55"
+          },
+          {
+            "text": "伦理片",
+            "id": "34"
+          },
+          {
+            "text": "国产剧",
+            "id": "13"
+          },
+          {
+            "text": "港台剧",
+            "id": "14"
+          },
+          {
+            "text": "日韩剧",
+            "id": "15"
+          }
+        ],
+        "home": "const cate=env.get(\"category\");const page=env.get(\"page\");const url=`${env.baseUrl}/index.php/vod/type/id/${cate}/page/${page}.html`;const html=await req(url);const $=kitty.load(html);return $(\".hl-vod-list li\").toArray().map(item=>{const a=$(item).find(\"a\");const id=a.attr(\"href\")??\"\";const cover=a.attr(\"data-original\")??\"\";const title=a.attr(\"title\")??\"\";const remark=$(item).find(\".hl-lc-1.remarks\").text()??\"\";return{id,title,cover,remark}})",
+        "detail": "const id=env.get(\"movieId\");const url=`${env.baseUrl}${id}`;const html=await req(url);const $=kitty.load(html);const box=$(\".conch-ctwrap-auto .container .hl-row-box\");const div=box.find(\".hl-item-thumb.hl-lazy\");const title=div.attr(\"title\")??\"\";const cover=div.attr(\"data-original\")??\"\";const tabs=$(\".hl-plays-from a\").toArray().map(item=>{return $(item).text().trim()});const _videos=$(\".hl-tabs-box\").toArray().map(item=>{return $(item).find(\"li a\").toArray().map(item=>{const id=$(item).attr(\"href\")??\"\";const text=$(item).text()??\"\";return{id,text}})});const playlist=tabs.map((title,index)=>{const videos=_videos[index];return{title,videos}});return{id,title,cover,playlist}",
+        "search": "const wd=env.get(\"keyword\");const page=env.get(\"page\");const url=`${env.baseUrl}/index.php/vod/search/page/${page}/wd/${wd}.html`;const html=await req(url);const $=kitty.load(html);return $(\".hl-one-list li\").toArray().map(item=>{const a=$(item).find(\"a\");const id=a.attr(\"href\")??\"\";const cover=a.attr(\"data-original\")??\"\";const title=a.attr(\"title\")??\"\";return{id,cover,title,remark:\"\"}})",
+        "parseIframe": "const iframe=env.get(\"iframe\");const html=await req(`${env.baseUrl}${iframe}`);const $=kitty.load(html);const script=$(\"script\").toArray().filter(item=>{const text=$(item).text().trim();if(text.startsWith(\"var player_aaaa\"))return true})[0];let code=$(script).text().trim().replace(\"var player_aaaa=\",\"\");code=`(${code})`;const unsafeObj=eval(code);function customUnescape(str){return str.replace(/%u([0-9A-Fa-f]{4})|%([0-9A-Fa-f]{2})/g,function(match,unicodeHex,hex){if(unicodeHex){return String.fromCharCode(parseInt(unicodeHex,16))}else{return String.fromCharCode(parseInt(hex,16))}})}function base64Decode(input){const chars=\"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=\";let i=input.length;for(;i>0&&input[i]!==\"=\";i--){}const str=input.substr(0,i-1);let output=\"\";if(str.length%4===1){return output}let bs=0;for(let bc=0,buffer,idx=0;buffer=str.charAt(idx);~buffer&&(bs=bc%4!==0?bs*64+buffer:buffer,bc++%4)!==0?output+=String.fromCharCode(255&bs>>>(-2*bc&6)):0){if(`${buffer}`.length===0){break}buffer=chars.indexOf(buffer);idx++}return output}if(unsafeObj.encrypt==\"1\"){unsafeObj.url=customUnescape(unsafeObj.url)}else if(unsafeObj.encrypt==\"2\"){unsafeObj.url=customUnescape(base64Decode(unsafeObj.url))}return unsafeObj.url"
+      }
+    }
+  },
+  {
+    "id": "feituys",
+    "name": "飞天影视",
+    "api": "https://www.feitu.tv",
+    "nsfw": false,
+    "type": 1,
+    "extra": {
+      "js": {
+        "category": [
+          {
+            "text": "电影",
+            "id": "1"
+          },
+          {
+            "text": "连续剧",
+            "id": "2"
+          },
+          {
+            "text": "综艺",
+            "id": "3"
+          },
+          {
+            "text": "动漫",
+            "id": "4"
+          },
+          {
+            "text": "超爽短剧",
+            "id": "110"
+          }
+        ],
+        "home": "const cate=env.get(\"category\");const page=env.get(\"page\");const url=`${env.baseUrl}/filter/${cate}/page/${page}`;const html=await req(url);const $=kitty.load(html);return $(\".hl-vod-list li\").toArray().map(item=>{const a=$(item).find(\"a\");const title=a.attr(\"title\")??\"\";const id=a.attr(\"href\")??\"\";const cover=a.attr(\"data-original\")??\"\";const remark=a.find(\".hl-lc-1.remarks\").text()??\"\";return{id,title,cover,remark}})",
+        "detail": "const id=env.get(\"movieId\");const url=`${env.baseUrl}${id}`;const html=await req(url);const $=kitty.load(html);const span=$(\".hl-dc-pic .hl-item-thumb.hl-lazy\");const cover=span.attr(\"data-original\")??\"\";const title=span.attr(\"title\")??\"\";const tabs=$(\".hl-plays-from a\").toArray().map(item=>{return $(item).text().trim()});const map=$(\".hl-tabs-box\").toArray().map(item=>{return $(item).find(\"a\").toArray().map(item=>{const text=$(item).text()??\"\";const id=$(item).attr(\"href\")??\"\";return{id,text}})});const playlist=tabs.map((title,index)=>{const videos=map[index];return{title,videos}});let desc=\"\";{const _=$(\".hl-full-box li\").toArray().at(-1);let text=$(_).text()??\"\";if(text.startsWith(\"\\u7B80\\u4ECB\")){text=text.replace(\"\\u7B80\\u4ECB\\uFF1A\",\"\");if(text!=\"\\u6682\\u65E0\\u7B80\\u4ECB\"){desc=text}}}return{id,cover,title,desc,playlist}",
+        "search": "const page=env.get(\"page\");const wd=env.get(\"keyword\");const url=`${env.baseUrl}/search/${wd}-${page}/`;const html=await req(url);const $=kitty.load(html);return $(\".hl-one-list li\").toArray().map(item=>{const a=$(item).find(\"a\");const id=a.attr(\"href\")??\"\";const title=a.attr(\"title\")??\"\";const cover=a.attr(\"data-original\")??\"\";const remark=$(item).find(\".hl-text-conch.score\").text()??\"\";return{id,title,cover,remark}})",
+        "parseIframe": "return kitty.utils.getM3u8WithIframe(env)"
+      }
+    }
+  },
+  {
+    "id": "jsdy$",
+    "name": "极速电影",
+    "api": "https://32d.cc",
+    "nsfw": false,
+    "type": 1,
+    "extra": {
+      "js": {
+        "category": [
+          {
+            "text": "电影",
+            "id": "1"
+          },
+          {
+            "text": "电视剧",
+            "id": "2"
+          },
+          {
+            "text": "综艺",
+            "id": "3"
+          },
+          {
+            "text": "动漫",
+            "id": "4"
+          },
+          {
+            "text": "短剧",
+            "id": "5"
+          }
+        ],
+        "home": "const cate=env.get(\"category\");const page=env.get(\"page\");const url=`${env.baseUrl}/index.php/vod/type/id/${cate}/page/${page}.html`;const html=await req(url);const $=kitty.load(html);return $(\".stui-vodlist__item\").toArray().map(item=>{const a=$(item).find(\"a.stui-vodlist__thumb\");const id=a.attr(\"href\")??\"\";const title=a.attr(\"title\")??\"\";let cover=a.find(\"img\").attr(\"data-original\")??\"\";cover=`${env.baseUrl}${cover}`;return{id,title,cover}})",
+        "detail": "const id=env.get(\"movieId\");const url=`${env.baseUrl}${id}`;const html=await req(url);const $=kitty.load(html);const a=$(\".stui-content.col-pd a.stui-vodlist__thumb\");const title=a.attr(\"title\")??\"\";let cover=a.find(\"img\").attr(\"data-original\")??\"\";cover=`${env.baseUrl}${cover}`;const desc=($(\".stui-content__desc\").text()??\"\").trim();const player=$(\".stui-content__playlist li\").toArray().map(item=>{const a=$(item).find(\"a\");const id=a.attr(\"href\")??\"\";const text=a.attr(\"title\")??\"\";return{id,text}});const playlist={title:\"\\u6781\\u901F\\u64AD\\u653E\",videos:player};return{id,title,cover,desc,remark:\"\",playlist:[playlist]}",
+        "search": "const page=env.get(\"page\");const wd=env.get(\"keyword\");const url=`${env.baseUrl}/index.php/vod/search/page/${page}/wd/${wd}.html`;const html=await req(url);const $=kitty.load(html);return $(\".stui-vodlist__item\").toArray().map(item=>{const a=$(item).find(\"a.stui-vodlist__thumb\");const id=a.attr(\"href\")??\"\";const title=a.attr(\"title\")??\"\";let cover=a.find(\"img\").attr(\"data-original\")??\"\";cover=`${env.baseUrl}${cover}`;return{id,title,cover}})",
+        "parseIframe": "return kitty.utils.getM3u8WithIframe(env)"
+      }
+    }
+  },
+  {
+    "id": "mxvod",
+    "name": "MXVOD",
+    "api": "https://www.mxvod.com",
+    "nsfw": false,
+    "type": 1,
+    "extra": {
+      "js": {
+        "category": [
+          {
+            "text": "电影",
+            "id": "dianyin"
+          },
+          {
+            "text": "电视剧",
+            "id": "dianshiju"
+          },
+          {
+            "text": "综艺",
+            "id": "zongyi"
+          },
+          {
+            "text": "动漫",
+            "id": "dongman"
+          },
+          {
+            "text": "短剧",
+            "id": "duanju"
+          },
+          {
+            "text": "电影解说",
+            "id": "dianyingjieshuo"
+          },
+          {
+            "text": "直播",
+            "id": "live"
+          },
+          {
+            "text": "体育",
+            "id": "tiyu"
+          }
+        ],
+        "home": "const cate=env.get(\"category\");const page=env.get(\"page\");const url=`${env.baseUrl}/vodshow/${cate}--------${page}---.html`;const html=await req(url);const $=kitty.load(html);return $($(\".module .module-list\").toArray()[0]).find(\".module-items .module-item\").toArray().map(item=>{const a=$(item).find(\"a\");const img=$(item).find(\"img\");const id=a.attr(\"href\")??\"\";let cover=img.attr(\"data-src\")??\"\";cover=`${env.baseUrl}${cover}`;const title=img.attr(\"alt\")??\"\";const remark=$(item).find(\".module-item-caption\").text()??\"\";return{id,title,cover,remark,playlist:[]}})",
+        "detail": "const id=env.get(\"movieId\");const url=`${env.baseUrl}${id}`;const html=await req(url);const $=kitty.load(html);const title=$(\".page-title a\").text()??\"\";const desc=($($(\".video-info-header .txtone\").toArray().at(-1)).text()??\"\").trim();const tabs=$(\".play-source-tab a, .module-tab-item\").toArray().map(item=>{const name=$(item).attr(\"data-dropdown-value\")??$(item).find(\"span\").attr(\"data-dropdown-value\");return name});const playlistTable=$(\".module-player-list\").toArray().map(item=>{let id=$(item).attr(\"id\")??\"\";id=id.replace(\"glist-\",\"\");const list=$(item).find(\".sort-item a\").toArray().map(item=>{const text=($(item).text()??\"\").trim();const id=$(item).attr(\"href\")??\"\";return{text,id}});return{id:+id,list}});const playlist=tabs.map((item,index)=>{return{title:item,videos:playlistTable[index].list}});return{id,title,desc,playlist}",
+        "search": "const wd=env.get(\"keyword\");const page=env.get(\"page\");const url=`${env.baseUrl}/vodsearch/${wd}----------${page}---.html`;const html=await req(url);const $=kitty.load(html);return $(\".module-search-item\").toArray().map(item=>{const a=$(item).find(\"a\");const img=$(item).find(\"img\");const id=a.attr(\"href\")??\"\";const title=a.attr(\"title\")??\"\";let cover=img.attr(\"data-src\")??\"\";cover=`${env.baseUrl}${cover}`;return{id,title,cover,remark:\"\",desc:\"\",playlist:[]}})",
+        "parseIframe": "return kitty.utils.getM3u8WithIframe(env)"
+      }
+    }
+  },
+  {
+    "id": "nnyy",
+    "name": "努努影院",
+    "api": "https://www.huibangpaint.com",
+    "nsfw": false,
+    "type": 1,
+    "extra": {
+      "js": {
+        "category": [
+          {
+            "id": "1",
+            "text": "电影"
+          },
+          {
+            "id": "2",
+            "text": "电视剧"
+          },
+          {
+            "id": "3",
+            "text": "综艺"
+          },
+          {
+            "id": "4",
+            "text": "动漫"
+          },
+          {
+            "id": "40",
+            "text": "短剧"
+          },
+          {
+            "id": "20",
+            "text": "动画片"
+          },
+          {
+            "id": "6",
+            "text": "动作片"
+          },
+          {
+            "id": "7",
+            "text": "喜剧片"
+          },
+          {
+            "id": "8",
+            "text": "爱情片"
+          },
+          {
+            "id": "9",
+            "text": "科幻片"
+          },
+          {
+            "id": "10",
+            "text": "恐怖片"
+          },
+          {
+            "id": "11",
+            "text": "剧情片"
+          },
+          {
+            "id": "12",
+            "text": "战争片"
+          },
+          {
+            "id": "21",
+            "text": "奇幻片"
+          },
+          {
+            "id": "22",
+            "text": "犯罪片"
+          },
+          {
+            "id": "23",
+            "text": "悬疑片"
+          },
+          {
+            "id": "24",
+            "text": "纪录片"
+          },
+          {
+            "id": "25",
+            "text": "邵氏电影"
+          },
+          {
+            "id": "13",
+            "text": "国产剧"
+          },
+          {
+            "id": "14",
+            "text": "香港剧"
+          },
+          {
+            "id": "15",
+            "text": "台湾剧"
+          },
+          {
+            "id": "16",
+            "text": "日本剧"
+          },
+          {
+            "id": "26",
+            "text": "韩国剧"
+          }
+        ],
+        "home": "const cate=env.get(\"category\");const page=env.get(\"page\");const url=`${env.baseUrl}/vodtype/${cate}-${page}.html`;const html=await req(url);const $=kitty.load(html);return $(\".myui-vodlist li\").toArray().map(item=>{const a=$(item).find(\"a.myui-vodlist__thumb\");const title=a.attr(\"title\")??\"\";const id=a.attr(\"href\")??\"\";const cover=a.attr(\"data-original\")??\"\";const remark=a.find(\".pic-text.text-right\").text()??\"\";return{title,id,cover,remark,playlist:[]}}).filter(item=>!!item)",
+        "detail": "const id=env.get(\"movieId\");const url=`${env.baseUrl}${id}`;const html=await req(url);const $=kitty.load(html);const a=$(\".myui-content__thumb .myui-vodlist__thumb.picture\");const cover=a.find(\"img\").attr(\"data-original\")??\"\";const title=a.attr(\"title\")??\"\";const remark=$(\".data .text-red\").text()??\"\";const desc=$(\".data p\").text()??\"\";const player=$(\".myui-content__list.sort-list li\").toArray().map(item=>{const a=$(item).find(\"a\");const text=a.text()??\"\";const id=a.attr(\"href\")??\"\";return{id,text}});return{id,cover,title,desc,remark,playlist:[{title:\"\\u767E\\u5EA6\\u8D44\\u6E90\",videos:player}]}",
+        "parseIframe": "return kitty.utils.getM3u8WithIframe(env)"
+      }
+    }
+  },
+  {
+    "id": "xiaoyakankan",
+    "name": "小鸭看看",
+    "api": "https://xiaoyakankan.com",
+    "type": 1,
+    "nsfw": false,
+    "extra": {
+      "js": {
+        "category": [
+          {
+            "text": "电影",
+            "id": "10"
+          },
+          {
+            "text": "连续剧",
+            "id": "11"
+          },
+          {
+            "text": "综艺",
+            "id": "12"
+          },
+          {
+            "text": "动漫",
+            "id": "13"
+          },
+          {
+            "text": "福利",
+            "id": "15"
+          }
+        ],
+        "home": "const cate=env.get(\"category\");const page=env.get(\"page\");const url=`${env.baseUrl}/cat/${cate}-${page}.html`;const html=await req(url);const $=kitty.load(html);return $(\".m4-list .item\").toArray().map(item=>{const img=$(item).find(\"img.img\");const id=$(item).find(\"a.link\").attr(\"href\")??\"\";const title=img.attr(\"alt\")??\"\";let cover=img.attr(\"data-src\")??\"\";if(!!cover&&cover.startsWith(\"//\")){cover=`https:${cover}`}const remark=$(item).find(\".tag1\").text()??\"\";return{id,title,cover,remark,playlist:[]}})",
+        "detail": "const id=env.get(\"movieId\");const url=`${env.baseUrl}${id}`;const html=await req(url);const $=kitty.load(html);const div=$(\".m4-vod\");const img=div.find(\"img.img\");let cover=img.attr(\"src\")??\"\";if(!!cover&&cover.startsWith(\"//\")){cover=`https:${cover}`}const title=img.attr(\"alt\")??\"\";let desc=$(\".more .info:last-of-type\").text()??\"\";const kPrefix=\"\\u7B80\\u4ECB\\uFF1A\";if(desc.startsWith(kPrefix)){desc=desc.replace(kPrefix,\"\")}else{desc=\"\"}const playlist=[];for(const script of $(\"body script\").toArray()){let cx=$(script).text()??\"\";if(!cx||!cx.includes(\"var pp\"))continue;cx=cx.replace(\"var pp=\",\"\");if(cx.endsWith(\";\"))cx=cx.slice(0,-1);const unsafeJSObj=eval(`(${cx})`);for(const line of unsafeJSObj.lines){const _id=line[0];const text=line[1];const urls=line[3];const videos=$(`div[data-vod='${_id}'] .list a`).toArray().map((item,index)=>{const text=$(item).text().trim();const idx=+($(item).attr(\"data-sou_idx\")??\"0\");const realUrl=urls[idx];return{text,url:realUrl}});playlist.push({title:text,videos})}}return{id,title,cover,desc,playlist}"
+      }
+    }
+  },
+  {
+    "id": "ysttv$",
+    "name": "影视天堂",
+    "type": 1,
+    "nsfw": false,
+    "api": "https://ysttv.com",
+    "extra": {
+      "js": {
+        "category": [
+          {
+            "text": "电影",
+            "id": "1"
+          },
+          {
+            "text": "电视",
+            "id": "2"
+          },
+          {
+            "text": "综艺",
+            "id": "3"
+          },
+          {
+            "text": "动漫",
+            "id": "4"
+          },
+          {
+            "text": "短剧",
+            "id": "5"
+          }
+        ],
+        "home": "const cate=env.get(\"category\");const page=env.get(\"page\");const url=`${env.baseUrl}/library/index/c/${cate}/y/all/s/${page}`;const html=await req(url);const $=kitty.load(html);return $(\"main ul.mb-5 > li\").toArray().map(item=>{const img=$(item).find(\"img\");const id=$(item).find(\"a\").attr(\"href\")??\"\";const cover=img.attr(\"data-src\")??\"\";const title=img.attr(\"alt\")??\"\";const remark=parseFloat($(item).find(\".tag.bg-dx-blue\").text()).toFixed(1)||$(item).find(\".text-white\").text();return{id,title,cover,remark}})",
+        "detail": "const id=env.get(\"movieId\");const url=`${env.baseUrl}${id}`;const html=await req(url);const $=kitty.load(html);const title=$(\".text-5xl.font-bold\").text().trim();const cover=$(\".border-2.border-white.border-solid img\").attr(\"data-src\")?.trim();const _videos=$(\".overflow-auto > ul > li\").toArray().map(item=>{const a=$(item).find(\"a\");const id=$(a).attr(\"href\")??\"\";const text=($(a).text()??\"\").trim();return{id,text}});const playlist=[{title:\"\\u9ED8\\u8BA4\",videos:_videos}];return{id,title,cover,playlist}",
+        "search": "const wd=env.get(\"keyword\");const page=env.get(\"page\");const url=`${env.baseUrl}/search/index/type/1/keyword/${wd}/page/${page}`;const html=await req(url);const $=kitty.load(html);return $(\"main ul.grid > li\").toArray().map(item=>{const img=$(item).find(\"img\");const id=$(item).find(\"a\").attr(\"href\")??\"\";const cover=img.attr(\"data-src\")??\"\";const title=img.attr(\"alt\")??\"\";const remark=\"\";return{id,title,cover,remark}})",
+        "parseIframe": "const iframe=env.get(\"iframe\");const html=await req(`${env.baseUrl}${iframe}`);const $=kitty.load(html);return $(\"#mse\").attr(\"data-url\")??\"\""
+      }
+    }
+  },
+  {
+    "id": "qnys-zbkys",
+    "name": "真不卡影院",
+    "api": "https://m.dgytlt.com",
+    "nsfw": false,
+    "type": 1,
+    "extra": {
+      "js": {
+        "category": [
+          {
+            "text": "电影",
+            "id": "1"
+          },
+          {
+            "text": "电视剧",
+            "id": "2"
+          },
+          {
+            "text": "综艺",
+            "id": "3"
+          },
+          {
+            "text": "综艺",
+            "id": "3"
+          },
+          {
+            "text": "动漫",
+            "id": "4"
+          }
+        ],
+        "home": "const cate=env.get(\"category\");const page=env.get(\"page\");const url=`${env.baseUrl}/vodshow/${cate}--------${page}---.html`;const html=await req(url);const $=kitty.load(html);return $(\".stui-vodlist li\").toArray().map(item=>{const a=$(item).find(\"a.stui-vodlist__thumb\");const id=a.attr(\"href\")??\"\";const title=a.attr(\"title\")??\"\";const cover=a.attr(\"data-original\")??\"\";const remark=a.find(\".pic-text.text-right\").text()??\"\";return{id,title,cover,remark}})",
+        "detail": "const id=env.get(\"movieId\");const url=`${env.baseUrl}${id}`;const html=await req(url);const $=kitty.load(html);const tabs=$(\".nav.nav-tabs li\").toArray().map(item=>{return $(item).text()??\"\"});const map=$(\".stui-panel_bd div.tab-pane\").toArray().map(item=>{return $(item).find(\"a\").toArray().map(_=>{const text=$(_).text()??\"\";const id=$(_).attr(\"href\")??\"\";return{id,text}})});const playlist=tabs.map((title,index)=>{const videos=map[index];return{title,videos}});const a=$(\".stui-pannel-box .stui-vodlist__thumb.picture.v-thumb\");const title=a.attr(\"title\")??\"\";const cover=a.find(\"img\").attr(\"data-original\")??\"\";const desc=$(\".detail.col-pd\").text()??\"\";return{id,title,cover,desc,playlist}",
+        "search": "const page=env.get(\"page\");const wd=env.get(\"keyword\");const url=`${env.baseUrl}/vodsearch/${wd}----------${page}---.html`;const html=await req(url);const $=kitty.load(html);return $(\".stui-vodlist__media li\").toArray().map(item=>{const a=$(item).find(\".v-thumb.stui-vodlist__thumb\");const title=a.attr(\"title\")??\"\";const cover=a.attr(\"data-original\")??\"\";const id=a.attr(\"href\")??\"\";const remark=a.find(\".pic-text.text-right\").text()??\"\";return{id,title,cover,remark}})",
+        "parseIframe": "return kitty.utils.getM3u8WithIframe(env)"
+      }
+    }
+  },
+  {
+    "id": "91jav$",
+    "name": "91Jav",
+    "type": 1,
+    "nsfw": true,
+    "api": "https://041.bndmpsjx.com",
+    "extra": {
+      "js": {
+        "category": "let list=[];let ignore=[\"\\u9996\\u9875\"];function isIgnoreClassName(className){return ignore.some(element=>className.includes(element))}let classurl=`${env.baseUrl}/index/getMvStyle/order/count`;const UA=\"Mozilla/5.0 (iPhone; CPU iPhone OS 18_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.1 Mobile/15E148 Safari/604.1\";const data=await req(classurl,{headers:{\"User-Agent\":UA}});const $=kitty.load(data);let allClass=$(\".pb-3.pb-e-lg-40 .col-6.col-sm-4.col-lg-3\");allClass.each((_,e)=>{const name=$(e).find(\"h3\").text();let href=$(e).find(\"a\").attr(\"href\")??\"\";href=href.replace(\"/cn/theme/detail/\",\"\").replace(\"/update/1\",\"\");const isIgnore=isIgnoreClassName(name);if(isIgnore)return;list.push({name,ext:{typeurl:href},ui:1})});return list.map(item=>{return{text:item.name,id:item.ext.typeurl}})",
+        "home": "const cate=env.get(\"category\");const page=env.get(\"page\");const url=`${env.baseUrl}/cn/theme/detail/${cate}/update/${page}`;const html=await req(url);const cards=[];const $=kitty.load(html);$(\".pb-3.pb-e-lg-40 .col-6.col-sm-4.col-lg-3\").each((_,element)=>{const href=$(element).find(\".title a\").attr(\"href\")??\"\";const title=$(element).find(\".title a\").text();const cover=$(element).find(\".zximg\").attr(\"z-image-loader-url\")??\"\";const subTitle=$(element).find(\".label\").text();if(subTitle==\"\\u5E7F\\u544A\")return;cards.push({vod_id:href,vod_name:title,vod_pic:cover,vod_duration:subTitle,ext:{url:`${env.baseUrl}${href}`}})});return cards.map(item=>{return{id:item.vod_id,title:item.vod_name,cover:item.vod_pic,remark:item.vod_duration}})",
+        "detail": "const id=env.get(\"movieId\");const url=`${env.baseUrl}${id}`;const html=await req(url);const $=kitty.load(html);const title=$(\"title\").text();const cover=$(\"video\").attr(\"data-src\")??\"\";let m3u8=html.match(/var hlsUrl = \"(.*?)\";/)[1];if(m3u8.startsWith(\"/\")){m3u8=`https://hls.usoryy.cn${m3u8}`}return{id,title,cover,playlist:[{title:\"\\u9ED8\\u8BA4\",videos:[{text:\"\\uD83D\\uDE0D\\u64AD\\u653E\",url:m3u8}]}]}",
+        "search": "const wd=env.get(\"keyword\");const page=+env.get(\"page\");let url=`${env.baseUrl}/cn/search/${wd}/${page}`;const html=await req(url);const cards=[];const $=kitty.load(html);$(\".pb-3.pb-e-lg-40 .col-6.col-sm-4.col-lg-3\").each((_,element)=>{const href=$(element).find(\".title a\").attr(\"href\")??\"\";const title=$(element).find(\".title a\").text();const cover=env.baseUrl+$(element).find(\"img\").attr(\"z-image-loader-url\");const subTitle=$(element).find(\".label\").text();if(subTitle==\"\\u5E7F\\u544A\")return;cards.push({vod_id:href,vod_name:title,vod_pic:cover,vod_duration:subTitle,ext:{url:`${env.baseUrl}${href}`}})});return cards.map(item=>{return{id:item.vod_id,title:item.vod_name,cover:item.vod_pic,remark:item.vod_duration}})"
+      }
+    }
+  },
+  {
+    "id": "avple",
+    "name": "AVPLE",
+    "api": "https://avple.tv",
+    "type": 1,
+    "nsfw": true,
+    "extra": {
+      "js": {
+        "category": [
+          {
+            "text": "麻豆传媒",
+            "id": "121"
+          },
+          {
+            "text": "果冻传媒",
+            "id": "123"
+          },
+          {
+            "text": "皇家华人",
+            "id": "124"
+          },
+          {
+            "text": "精东影业",
+            "id": "125"
+          },
+          {
+            "text": "天美传媒",
+            "id": "126"
+          },
+          {
+            "text": "星空无限传媒",
+            "id": "127"
+          },
+          {
+            "text": "乐博传媒",
+            "id": "128"
+          },
+          {
+            "text": "蜜桃传媒",
+            "id": "129"
+          },
+          {
+            "text": "乌鸦传媒",
+            "id": "130"
+          },
+          {
+            "text": "国产自拍",
+            "id": "131"
+          },
+          {
+            "text": "SWAG",
+            "id": "132"
+          },
+          {
+            "text": "FC2PPV",
+            "id": "135"
+          }
+        ],
+        "home": "const cate=env.get(\"category\");const page=env.get(\"page\");const url=`${env.baseUrl}/tags/${cate}/${page}/date`;const html=await req(url);const $=kitty.load(html);let code=$(\"script#__NEXT_DATA__\").text()??\"\";code=`(${code})`;const unsafeObj=eval(code);return unsafeObj.props.pageProps.data.map(item=>{let remark=\"\";if(!!item.tags.length){remark=item.tags[0]}return{id:item._id,title:item.title,cover:item.img_preview,remark}})",
+        "detail": "const id=env.get(\"movieId\");const url=`${env.baseUrl}/video/${id}`;const html=await req(url);const $=kitty.load(html);let code=$(\"script#__NEXT_DATA__\").text()??\"\";code=`(${code})`;const unsafeObj=eval(code);let m3u8=unsafeObj.props.pageProps.instance.play;function getRealM3u8(type,m3u8){let full_domain=[\"d862cp.cdnedge.live\",\"q2cyl7.cdnedge.live\",\"u89ey.cdnedge.live\",\"zo392.cdnedge.live\",\"wo880.cdnedge.live\",\"6m7d.cdnedge.live\",\"8bb88.cdnedge.live\",\"fa678.cdnedge.live\",\"pg2z7.cdnedge.live\",\"1xp60.cdnedge.live\",\"47b61.cdnedge.live\",\"i3qss.cdnedge.live\",\"10j99.cdnedge.live\",\"je40u.cdnedge.live\",\"f125c.cdnedge.live\",\"w9n76.cdnedge.live\",\"s6s6u.cdnedge.live\",\"rup0u.cdnedge.live\",\"e2fa6.cdnedge.live\",\"t4tm6.cdnedge.live\",\"w083g.cdnedge.live\"];const _domain=full_domain.map(e=>e.split(\".\")[0]+\"1.cdnedge.live\");const domains={stream_MD_CDN:full_domain,stream_SWAG_CDN:full_domain,stream_HOME_MADE_CDN:full_domain,stream_US_CDN:full_domain,stream_US_CDN1:_domain,stream_MD_CDN1:_domain,stream_SWAG_CDN1:_domain,stream_HOME_MADE_CDN1:_domain,classic_jav:[\"hqua8q61at.cdnedge.live\"]};switch(type){case 5:return`${env.baseUrl}/${m3u8}`;case 7:case 8:let e=domains.stream_US_CDN;const r=Math.floor(Math.random()*e.length);return\"https://\".concat(e[r],\"/file/avple-images/\").concat(m3u8);case 12:let e1=domains.stream_MD_CDN1;var r1=Math.floor(Math.random()*e1.length);return\"https://\".concat(e1[r1],\"/file/avple-asserts/\").concat(m3u8);case 13:let e2=domains.stream_SWAG_CDN1;var r2=Math.floor(Math.random()*e2.length);return\"https://\".concat(e2[r2],\"/file/avple-asserts/\").concat(m3u8);case 14:let e3=domains.stream_HOME_MADE_CDN1;var r3=Math.floor(Math.random()*e3.length);return\"https://\".concat(e3[r3],\"/file/avple-asserts/\").concat(m3u8);case 17:case 18:let e4=domains.stream_US_CDN1;var r4=Math.floor(Math.random()*e4.length);return\"https://\".concat(e4[r4],\"/file/avple-asserts/\").concat(m3u8)}}const realM3u8=getRealM3u8(unsafeObj.props.pageProps.instance.play_source_type,m3u8);return{id,title:unsafeObj.props.pageProps.instance.title,cover:unsafeObj.props.pageProps.instance.img_normal,desc:unsafeObj.props.pageProps.instance.key_words.join(\",\"),playlist:[{title:\"avple\",videos:[{text:unsafeObj.props.pageProps.instance.release,url:realM3u8}]}]}",
+        "search": "const wd=env.get(\"keyword\");const page=env.get(\"page\");const url=`https://avple.tv/search?key=${wd}&page=${page}`;const html=await req(url);const $=kitty.load(html);let code=$(\"script#__NEXT_DATA__\").text()??\"\";code=`(${code})`;const unsafeObj=eval(code);return unsafeObj.props.pageProps.data.map(item=>{let remark=\"\";if(!!item.tags.length){remark=item.tags[0]}return{id:item._id,title:item.title,cover:item.img_preview,remark}})"
+      }
+    }
+  },
+  {
+    "id": "avtody$",
+    "name": "Avtody",
+    "type": 1,
+    "nsfw": true,
+    "api": "https://avtoday.io",
+    "extra": {
+      "js": {
+        "category": "let list=[];let ignore=[];function isIgnoreClassName(className){return ignore.some(element=>className.includes(element))}const UA=\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36\";const data=await req(env.baseUrl+\"/catalog\",{headers:{\"User-Agent\":UA}});const $=kitty.load(data);let allClass=$(\".swiper-wrapper > .swiper-slide\");allClass.each((_,e)=>{const name=$(e).find(\".btn-categories__title\").text();const info=$(e).find(\".btn-categories__info\").text().split(\" \")[0];const href=$(e).find(\"a.btn-categories\").attr(\"href\");const isIgnore=isIgnoreClassName(name);if(isIgnore)return;list.push({name:`${name} (${info})`,ext:{url:href},ui:1})});return list.filter(item=>!!item.ext.url).map(item=>{let text=item.name.replace(/\\(\\d*\\)/,\"\");return{text,id:item.ext.url}})",
+        "home": "const cate=env.get(\"category\");const page=env.get(\"page\");const url=`${cate}?page=${page}`;const $=kitty.load(await req(url));return $(\".thumbnail\").toArray().map(element=>{const __text=$(element).text();if(__text.includes(\"\\u5E7F\\u544A\")||__text.includes(\"\\u5EE3\\u544A\"))return null;const href=$(element).find(\".video-title a\").attr(\"href\");const title=$(element).find(\".video-title a\").text();const _videoStyle=$(element).find(\"video\").attr(\"style\")??\"\";let cover=_videoStyle.match(/url\\('(\\S*)'\\)/)[1];cover=`${env.baseUrl}${cover}`;const subTitle=$(element).find(\".video-tag\").text().trim()||\"\";return{id:href,title,cover,remark:subTitle}}).filter(item=>!!item)",
+        "search": "const wd=env.get(\"keyword\");const page=env.get(\"page\");const url=`${env.baseUrl}/search?s=${wd}&page=${page}`;const $=kitty.load(await req(url));return $(\".thumbnail\").toArray().map(element=>{const __text=$(element).text();if(__text.includes(\"\\u5E7F\\u544A\")||__text.includes(\"\\u5EE3\\u544A\"))return null;const href=$(element).find(\".video-title a\").attr(\"href\");const title=$(element).find(\".video-title a\").text();const _videoStyle=$(element).find(\"video\").attr(\"style\")??\"\";let cover=_videoStyle.match(/url\\('(\\S*)'\\)/)[1];cover=`${env.baseUrl}${cover}`;const subTitle=$(element).find(\".video-tag\").text().trim()||\"\";return{id:href,title,cover,remark:subTitle}}).filter(item=>!!item)",
+        "detail": "const id=env.get(\"movieId\");const url=`${env.baseUrl}${id}`;const $=kitty.load(await req(url));const title=$(`meta[property=\"og:title\"]`).text();const cover=$(`meta[property=\"og:image\"]`).text();const iframe=$(\".video-frame\").attr(\"src\");const playlist=[{title:\"\\u9ED8\\u8BA4\",videos:[{text:\"\\uD83D\\uDE0D\\u64AD\\u653E\",id:iframe}]}];return{id,title,cover,playlist}",
+        "parseIframe": "const UA=\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36\";const iframe=env.get(\"iframe\");const realId=iframe.match(/\\?s=(\\S*)/)[1];const referer=`${env.baseUrl}/video/${realId}`;const html=await req(`${env.baseUrl}${iframe}`,{headers:{\"User-Agent\":UA,Referer:referer}});return html.match(/var m3u8_url = '(.*?)';/)[1]"
+      }
+    }
+  },
+  {
+    "id": "caoliuship",
+    "name": "草榴视频",
+    "type": 1,
+    "nsfw": true,
+    "api": "https://xn--r8vr95cose26q.top",
+    "extra": {
+      "js": {
+        "category": [
+          {
+            "id": "2",
+            "text": "国产福利"
+          },
+          {
+            "id": "8",
+            "text": "国产精选"
+          },
+          {
+            "id": "3",
+            "text": "国产主播"
+          },
+          {
+            "id": "4",
+            "text": "日本无码"
+          },
+          {
+            "id": "5",
+            "text": "日本有码"
+          },
+          {
+            "id": "7",
+            "text": "欧美精选"
+          },
+          {
+            "id": "9",
+            "text": "Ai明星换脸"
+          },
+          {
+            "id": "10",
+            "text": "成人动漫"
+          },
+          {
+            "id": "11",
+            "text": "各种口味"
+          },
+          {
+            "id": "12",
+            "text": "三级伦理"
+          }
+        ],
+        "home": "const cate=env.get(\"category\");const page=env.get(\"page\");const url=`${env.baseUrl}/vodtype/${cate}-${page}/`;const $=kitty.load(await req(url));return $(\".post-list .col-md-3\").toArray().map(item=>{const a=$(item).find(\"a\");const img=a.find(\"img\");const id=a.attr(\"href\")??\"\";let cover=img.attr(\"data-original\")??\"\";cover=`${env.baseUrl}${cover}`;const title=img.attr(\"alt\")??\"\";return{id,cover,title}})",
+        "detail": "const id=env.get(\"movieId\");const url=`${env.baseUrl}${id}`;const html=await req(url);const $=kitty.load(html);const m3u8=kitty.utils.getM3u8WithStr(html);const title=$(\".breadcrumb\").text().trim();return{id,title,playlist:[{title:\"\\u9ED8\\u8BA4\",videos:[{text:\"\\uD83D\\uDE0D\\u64AD\\u653E\",url:m3u8}]}]}"
+      }
+    }
+  },
+  {
+    "id": "chaojifulisousuo",
+    "name": "超级福利",
+    "type": 1,
+    "api": "https://chaojisousuo14.buzz",
+    "nsfw": true,
+    "extra": {
+      "js": {
+        "category": [
+          {
+            "text": "亚洲性爱",
+            "id": "33"
+          },
+          {
+            "text": "热门事件",
+            "id": "37"
+          },
+          {
+            "text": "动漫肉番",
+            "id": "34"
+          }
+        ],
+        "home": "const url=`${env.baseUrl}/index.php/vod/type/id/${env.get(\"category\")}/page/${env.get(\"page\")}.html`;const html=await req(url);const $=kitty.load(html);return $(\".vodlist .listpic\").toArray().map(el=>{const a=$(el).find(\"a\");const pic=$(el).find(\".vodpic\");const name=$(el).find(\".vodname\");const remark=$(el).find(\".time\");return{id:a.attr(\"href\")??\"\",cover:pic.attr(\"data-original\")??\"\",title:name.text()??\"\",remark:remark.text(),playlist:[]}})",
+        "detail": "const id=env.get(\"movieId\");const html=await req(`${env.baseUrl}${id}`);const $=kitty.load(html);const img=$(\".pull-left.pull-left-mobile1 img.lazy\");const player=$(\"#playlist4 tr\").toArray().map(item=>{const a=$(item).find(\"a\");const id=a.attr(\"href\")??\"\";const text=a.text();return{text,id}});return{title:img.attr(\"title\")??\"\",cover:img.attr(\"src\")??\"\",id:id,playlist:[{title:\"\\u9ED8\\u8BA4\",videos:player}]}",
+        "search": "const url=`${env.baseUrl}/index.php/vod/search/page/${env.get(\"page\")}/wd/${env.get(\"keyword\")}.html`;const html=await(await fetch(url)).text();const $=kitty.load(html);return $(\".show-list li\").toArray().map(item=>{const _=$(item).find(\"img\")??\"\";const a=$(item).find(\"a.play-img\");const remark=$($(item).find(\"dl.fn-left\").toArray().at(-1)).find(\"dd\").text();const id=a.attr(\"href\")??\"\";const cover=_.attr(\"src\")??\"\";const title=_.attr(\"alt\")??\"\";return{id,cover,title,remark,playlist:[]}})",
+        "parseIframe": "const url=`${env.baseUrl}${env.get(\"iframe\")}`;const html=await req(url);const $=kitty.load(html);const script=$(\"#bofang_box script\").text();const m3u8=script.match(/\"url\":\"(.*?)\"/)[1].replace(/\\\\/g,\"\");return m3u8"
+      }
+    }
+  },
+  {
+    "id": "heiliangav",
+    "name": "黑料网",
+    "type": 1,
+    "api": "https://3rh5s.cfvyjuz.com",
+    "nsfw": true,
+    "extra": {
+      "js": {
+        "category": [
+          {
+            "text": "最新黑料",
+            "id": "/hlcg/"
+          },
+          {
+            "text": "今日热瓜",
+            "id": "/jrrs/"
+          },
+          {
+            "text": "热门黑料",
+            "id": "/jqrm/"
+          },
+          {
+            "text": "经典黑料",
+            "id": "/lsdg/"
+          },
+          {
+            "text": "日榜黑料",
+            "id": "/mrrb/"
+          },
+          {
+            "text": "周榜精选",
+            "id": "/zbjx/"
+          },
+          {
+            "text": "月榜热瓜",
+            "id": "/ybrg/"
+          },
+          {
+            "text": "原创社区",
+            "id": "/ycsq/"
+          },
+          {
+            "text": "全球奇闻",
+            "id": "/qqqw/"
+          },
+          {
+            "text": "反差专区",
+            "id": "/fczq/"
+          },
+          {
+            "text": "黑料选妃",
+            "id": "/hlxf/"
+          },
+          {
+            "text": "校园黑料",
+            "id": "/xycg/"
+          },
+          {
+            "text": "网红黑料",
+            "id": "/whhl/"
+          },
+          {
+            "text": "影视短剧",
+            "id": "/ysdj/"
+          },
+          {
+            "text": "每日大赛",
+            "id": "/mrds/"
+          },
+          {
+            "text": "明星丑闻",
+            "id": "/mxcw/"
+          },
+          {
+            "text": "深夜综艺",
+            "id": "/syzy/"
+          },
+          {
+            "text": "推特社区",
+            "id": "/ttsq/"
+          },
+          {
+            "text": "独家爆料",
+            "id": "/djbl/"
+          },
+          {
+            "text": "桃图杂志",
+            "id": "/ttzz/"
+          },
+          {
+            "text": "黑料课堂",
+            "id": "/hlkt/"
+          },
+          {
+            "text": "有求必应",
+            "id": "/yqby/"
+          },
+          {
+            "text": "黑料小说",
+            "id": "/jqxs/"
+          },
+          {
+            "text": "社会新闻",
+            "id": "/shxw/"
+          },
+          {
+            "text": "内涵黑料",
+            "id": "/nhhl/"
+          },
+          {
+            "text": "黑料爆改",
+            "id": "/hlbg/"
+          },
+          {
+            "text": "官场爆料",
+            "id": "/gchl/"
+          }
+        ],
+        "home": "const cate=env.get(\"category\");const page=env.get(\"page\");const url=`${env.baseUrl}${cate}page/${page}/`;const $=kitty.load(await req(url));return $(\".video-list .video-item\").toArray().map(item=>{const id=$(item).find(\"a\").attr(\"href\")??\"\";if(!id.startsWith(\"/archives/\"))return null;let cover=$(item).find(\"img\").attr(\"src\")??\"\";cover=`${env.baseUrl}${cover}`;const title=$(item).find(\"h3\").text().trim();if(!title)return null;return{id,cover,title}}).filter(item=>!!item)",
+        "detail": "let id=env.get(\"movieId\");if(!id.startsWith(\"/archives\")){id=`/archives/${id}`}const url=`${env.baseUrl}${id}`;const $=kitty.load(await req(url));const title=$(\".detail-title\").text().trim();let desc=\"\";$(\".client-only-placeholder p\").toArray().forEach(item=>{const _=$(item).text();desc+=_});const videos=$(\".dplayer\").toArray().map((item,index)=>{const cfgCode=$(item).attr(\"config\")??\"\";const unsafeObj=eval(`(${cfgCode})`);const m3u8=unsafeObj.video.url;return{text:\"\"+index,url:m3u8}});return{id,title,desc,playlist:[{title:\"\\u9ED8\\u8BA4\",videos}]}",
+        "search": "const wd=env.get(\"keyword\");const page=env.get(\"page\");const _=await req(`${env.baseUrl}/index/search_article`,{method:\"POST\",bodyType:\"form\",data:{word:wd,page}});const obj=JSON.parse(_);return obj.data.list.map(item=>{return{id:item.id,cover:item.thumb,title:item.title,remark:\"\"}})"
+      }
+    }
+  },
+  {
+    "id": "hohoj$",
+    "name": "HOHOJ",
+    "api": "https://hohoj.tv",
+    "nsfw": true,
+    "type": 1,
+    "extra": {
+      "js": {
+        "category": [
+          {
+            "text": "全部",
+            "id": "all"
+          },
+          {
+            "text": "欧美",
+            "id": "europe"
+          },
+          {
+            "text": "中字",
+            "id": "chinese"
+          },
+          {
+            "text": "无码",
+            "id": "uncensored"
+          },
+          {
+            "text": "有码",
+            "id": "censored"
+          }
+        ],
+        "home": "const cate=env.get(\"category\");const page=env.get(\"page\");const url=`${env.baseUrl}/search?type=${cate}&p=${page}`;const $=kitty.load(await req(url));return $(\".video-item.col-lg-3.col-md-3.col-sm-6.col-6.mt-4\").toArray().map(element=>{const videoid=$(element).find(\"a\").attr(\"href\").match(/id=(\\d+)/)[1];const title=$(element).find(\".video-item-title.mt-1\").text();const cover=$(element).find(\"img\").attr(\"src\")??\"\";const remarks=$(element).find(\".video-item-badge\").text();return{id:videoid,cover,title,remark:remarks}})",
+        "detail": "const id=env.get(\"movieId\");const url=`${env.baseUrl}/video?id=${id}`;const $=kitty.load(await req(url));const title=$(\"h5.mt-3\").text();const cover=$(`meta[property=\"og:image\"]`).attr(\"content\")??\"\";const html2=await req(`${env.baseUrl}/embed?id=${id}`);const $2=kitty.load(html2);const m3u8=$2(\"video#my-video\").attr(\"src\")??\"\";const playlist=[{title:\"\\u9ED8\\u8BA4\",videos:[{text:\"\\uD83D\\uDE0D\\u64AD\\u653E\",url:m3u8}]}];return{id,title,cover,playlist}",
+        "search": "const wd=env.get(\"keyword\");const page=env.get(\"page\");const url=`${env.baseUrl}/search?text=${wd}&p=${page}`;const $=kitty.load(await req(url));return $(\".video-item.col-lg-3.col-md-3.col-sm-6.col-6.mt-4\").toArray().map(element=>{const videoid=$(element).find(\"a\").attr(\"href\").match(/id=(\\d+)/)[1];const title=$(element).find(\".video-item-title.mt-1\").text();const cover=$(element).find(\"img\").attr(\"src\")??\"\";const remarks=$(element).find(\".video-item-badge\").text();return{id:videoid,cover,title,remark:remarks}})"
+      }
+    }
+  },
+  {
+    "id": "javmove$",
+    "name": "JavMove",
+    "type": 1,
+    "nsfw": true,
+    "api": "https://javmove.com",
+    "extra": {
+      "gfw": true,
+      "js": {
+        "category": [
+          {
+            "text": "最新AV",
+            "id": "release"
+          },
+          {
+            "text": "即将上映",
+            "id": "upcoming"
+          }
+        ],
+        "home": "const cate=env.get(\"category\");const page=env.get(\"page\");const url=`${env.baseUrl}/${cate}?page=${page}`;const html=await req(url);const $=kitty.load(html);return $(\"#movie-list article\").toArray().map(element=>{const id=$(element).find(\"a[rel=\\\"bookmark\\\"]\").attr(\"href\")??\"\";const title=$(element).find(\"h2\").attr(\"title\").split(\" \")[0];const cover=($(element).find(\".movie-image\").attr(\"data-srcset\")||$(element).find(\".movie-image\").attr(\"src\"))??\"\";return{id,title,cover,remark:\"\"}})",
+        "detail": "const UA=\"Mozilla/5.0 (iPhone; CPU iPhone OS 18_0_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.0.1 Mobile/15E148 Safari/604.1\";const id=env.get(\"movieId\");const url=`${env.baseUrl}${id}`;const html=await req(url);const $=kitty.load(html);const videoId=$(\"#video-player\").attr(\"data-id\")||\"\";const promises=$(\".video-format\").toArray().map(async element=>{const format=$(element).find(\".video-format-header\").text().trim();let formatGroup={title:format,tracks:[]};const partElements=$(element).find(\".video-source-btn\");for(const partEl of partElements.toArray()){const href=$(partEl).attr(\"href\")||\"\";const partMatch=$(partEl).attr(\"title\").match(/part\\s*(\\d+)/i);const partNumber=partMatch?parseInt(partMatch[1],10):0;const title=`part ${partNumber}`;let dataID;if(href.includes(\"#\")){dataID=videoId}else{const curl=`${env.baseUrl}${href}`;const data2=await req(curl,{headers:{\"User-Agent\":UA,Referer:url}});const $2=kitty.load(data2);dataID=$2(\"#video-player\").attr(\"data-id\")??\"\"}formatGroup.tracks.push({part:partNumber,name:title,ext:{dataID}})}return formatGroup});const _=await Promise.all(promises);const playlist=_.map(({title,tracks})=>{return{title,videos:tracks.map(item=>{return{text:item.name,id:item.ext.dataID}})}});const title=$(\".text-2xl.font-bold.text-gray-100.mb-4.flex.items-center\").text().trim();const cover=$(\".w-full.h-full.lazyloaded\").attr(\"data-srcset\")??\"\";return{id,title,cover,playlist}",
+        "parseIframe": "const UA=\"Mozilla/5.0 (iPhone; CPU iPhone OS 18_0_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.0.1 Mobile/15E148 Safari/604.1\";const id=env.get(\"iframe\");const api=`${env.baseUrl}/watch?token=${id}`;const data=await req(api,{headers:{\"User-Agent\":UA,Referer:\"https://javquick.com/\"}});return data"
+      }
+    }
+  },
+  {
+    "id": "netflav$",
+    "name": "NetFlav",
+    "api": "https://www.netflav.com",
+    "type": 1,
+    "nsfw": true,
+    "extra": {
+      "js": {
+        "category": [
+          {
+            "text": "最受欢迎",
+            "id": "trending"
+          },
+          {
+            "text": "有码",
+            "id": "censored"
+          },
+          {
+            "text": "无码",
+            "id": "uncensored"
+          }
+        ],
+        "home": "const cate=env.get(\"category\");const page=env.get(\"page\");let url=`${env.baseUrl}/${cate}?page=${page}`;const $=kitty.load(await req(url));const script=$(\"#__NEXT_DATA__\").text();const unsafeObj=JSON.parse(script);const data=unsafeObj.props.initialState[cate];return data.docs.map(item=>{return{id:item.videoId,cover:item.preview||item.preview_hp||item.previewImagesUrl,title:item.title,remark:item.code}})",
+        "detail": "const id=env.get(\"movieId\");const url=`${env.baseUrl}/video?id=${id}`;const $=kitty.load(await req(url));const script=$(\"#__NEXT_DATA__\").text();const json=JSON.parse(script);const data=json.props.initialState.video.data;const urls=Array.from(new Set([data.src,...(data.srcs??[])]));const playlist=[{title:\"\\u9ED8\\u8BA4\",videos:urls.map((item,index)=>{return{text:`源${index}`,id:item}})}];return{id,cover:data.preview||data.preview_hp||data.previewImagesUrl,title:data.title,desc:data.description,playlist}",
+        "search": "const wd=env.get(\"keyword\");const page=env.get(\"page\");const url=`${env.baseUrl}/search?keyword=${wd}&page=${page}&type=title`;const $=kitty.load(await req(url));const script=$(\"#__NEXT_DATA__\").text();const json=JSON.parse(script);const allvideos=json.props.initialState.search.docs;return allvideos.map(item=>{return{id:item.videoId,cover:item.preview||item.preview_hp||item.previewImagesUrl,title:item.title,remark:item.code}})",
+        "parseIframe": "const iframe=env.get(\"iframe\");return\"\""
+      }
+    }
+  },
+  {
+    "id": "rouvideo$",
+    "name": "肉视频",
+    "type": 1,
+    "nsfw": true,
+    "api": "https://rou.video",
+    "extra": {
+      "js": {
+        "category": [
+          {
+            "text": "全部",
+            "id": "v"
+          },
+          {
+            "text": "日本",
+            "id": "日本"
+          },
+          {
+            "text": "OnlyFans",
+            "id": "OnlyFans"
+          },
+          {
+            "text": "自拍流出",
+            "id": "自拍流出"
+          },
+          {
+            "text": "国产AV",
+            "id": "国产AV"
+          },
+          {
+            "text": "探花",
+            "id": "探花"
+          }
+        ],
+        "home": "const cate=env.get(\"category\");const page=env.get(\"page\");let prefix=cate==\"v\"?\"v\":`/t/${cate}`;const url=`${env.baseUrl}/${prefix}?order=createdAt&page=${page}`;const html=await req(url);const $=kitty.load(html);return $(\".group.relative\").toArray().map(element=>{const $el=$(element);const a=$el.find(\"a[href^=\\\"/v/\\\"]\").first();if(!a||a.length===0)return null;let href=a.attr(\"href\")||\"\";if(href&&!href.startsWith(\"http\"))href=env.baseUrl+href;const imgs=$el.find(\"img\").toArray();let cover=\"\";if(imgs&&imgs.length>0){cover=($(imgs[imgs.length-1]).attr(\"src\")||$(imgs[0]).attr(\"src\"))??\"\"}else{cover=$el.find(\"img\").attr(\"src\")||\"\"}const title=($el.find(\"h3\").text()||\"\").trim()||($(imgs&&imgs.length>0)?$(imgs[imgs.length-1]).attr(\"alt\"):\"\");const remarks=$el.find(\".absolute.bottom-1.left-1\").text().trim()||$el.find(\".text-xs\").text().trim()||\"\";return{id:href,title,cover,remark:remarks}}).filter(item=>!!item)",
+        "detail": "const id=env.get(\"movieId\");const url=id;const m=url.match(/\\/v\\/([^\\/\\?\\#]+)/);const slug=m?m[1]:null;let playApi=\"\";if(slug){playApi=`${env.baseUrl}/api/v/${slug}`}else{playApi=url}const apiText=await req(playApi,{headers:{\"User-Agent\":\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36\",\"Referer\":url}});const apiObj=JSON.parse(apiText);const playlist=[{title:\"\\u9ED8\\u8BA4\",videos:[{text:\"\\uD83D\\uDE0D\\u64AD\\u653E\",url:apiObj.video.videoUrl}]}];const $=kitty.load(await req(url,{headers:{\"User-Agent\":\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36\",\"Referer\":url}}));const title=$(\"title\").text();const cover=$(\"video\").attr(\"poster\")??\"\";return{id,title,cover,playlist}",
+        "search": "const wd=env.get(\"keyword\");const page=env.get(\"page\");function customEncodeURIComponent(str){if(typeof str!==\"string\"){str=String(str)}let result=\"\";for(let i=0;i<str.length;i++){const char=str.charAt(i);const charCode=char.charCodeAt(0);if(charCode>=97&&charCode<=122||charCode>=65&&charCode<=90||charCode>=48&&charCode<=57||charCode===45||charCode===95||charCode===46||charCode===33||charCode===126||charCode===42||charCode===39||charCode===40||charCode===41){result+=char}else{if(charCode>=55296&&charCode<=56319){if(i+1<str.length){const nextCharCode=str.charCodeAt(i+1);if(nextCharCode>=56320&&nextCharCode<=57343){const codePoint=(charCode-55296)*1024+(nextCharCode-56320)+65536;result+=encodeCodePoint(codePoint);i++;continue}}}result+=encodeCodePoint(charCode)}}return result}function encodeCodePoint(codePoint){let bytes=[];if(codePoint<=127){bytes.push(codePoint)}else if(codePoint<=2047){bytes.push(192|codePoint>>6);bytes.push(128|codePoint&63)}else if(codePoint<=65535){bytes.push(224|codePoint>>12);bytes.push(128|codePoint>>6&63);bytes.push(128|codePoint&63)}else if(codePoint<=1114111){bytes.push(240|codePoint>>18);bytes.push(128|codePoint>>12&63);bytes.push(128|codePoint>>6&63);bytes.push(128|codePoint&63)}return bytes.map(byte=>\"%\"+byte.toString(16).toUpperCase()).join(\"\")}const q=customEncodeURIComponent(wd);const url=`${env.baseUrl}/search?q=${q}&t=&page=${page}`;const html=await req(url,{headers:{\"User-Agent\":\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36\",\"Referer\":url}});const $=kitty.load(html);let cards=[];$(\".group.relative\").each((_,element)=>{const $el=$(element);const a=$el.find(\"a[href^=\\\"/v/\\\"]\").first();if(!a||a.length===0)return;let href=a.attr(\"href\")??\"\";if(href&&!href.startsWith(\"http\"))href=env.baseUrl+href;const imgs=$el.find(\"img\");let cover=\"\";if(imgs&&imgs.length>0)cover=($(imgs[imgs.length-1]).attr(\"src\")||$(imgs[0]).attr(\"src\"))??\"\";const title=($el.find(\"h3\").text()||\"\").trim();const remarks=$el.find(\".absolute.bottom-1.left-1\").text().trim()||\"\";cards.push({vod_id:href,vod_name:title,vod_pic:cover,vod_remarks:remarks})});return cards.map(item=>{return{id:item.vod_id,title:item.vod_name,cover:item.vod_pic,remark:item.vod_remarks}})"
+      }
+    }
+  },
+  {
+    "id": "taiav",
+    "name": "Taiav",
+    "type": 1,
+    "api": "https://taiav.com",
+    "nsfw": true,
+    "extra": {
+      "js": {
+        "category": [
+          {
+            "text": "最近更新",
+            "id": "news"
+          },
+          {
+            "text": "国产AV",
+            "id": "国产AV"
+          },
+          {
+            "text": "网红主播",
+            "id": "网红主播"
+          },
+          {
+            "text": "有码",
+            "id": "有码"
+          },
+          {
+            "text": "无码",
+            "id": "无码"
+          }
+        ],
+        "home": "let url=`${env.baseUrl}/cn/`;const cate=env.get(\"category\");const page=env.get(\"page\");if(cate==\"news\"){url+=\"news\"}else{url+=`category/${cate}`}url+=`?page=${page}`;const html=await req(url);const $=kitty.load(html);return $(`.videos-lists .movie-card`).toArray().map(item=>{const a=$(item).find(\".uk-card-body a\");const id=a.attr(\"href\")??\"\";if(!id.startsWith(\"/cn/movie\"))return null;const imgEl=$(item).find(\"img[uk-cover]\");const cover=imgEl.attr(\"src\")??\"\";const title=imgEl.attr(\"alt\")??\"\";const remark=$(item).find(\".uk-tag.uk-type\").text()??\"\";return{id,cover,title,remark}}).filter(item=>!!item)",
+        "detail": "const id=env.get(\"movieId\");const realId=id.replace(\"/cn/movie/\",\"\");const html=await req(`${env.baseUrl}${id}`);const $=kitty.load(html);const title=$(\".uk-h4.uk-text-break\").text();const cover=html.match(/poster:\\s*'([^']+)'/)[1];const m3u8API=`${env.baseUrl}/api/getmovie?type=1280&id=${realId}`;const player=await req(m3u8API);const{m3u8}=JSON.parse(player);const remark=$(\".uk-padding-small .uk-grid-small.uk-grid div\").toArray().map(item=>{return $(item).text()}).join(\",\");const play={title:\"\\u9ED8\\u8BA4\",videos:[{text:\"\\u9AD8\\u6E05\",url:`${env.baseUrl}${m3u8}`}]};return{id,title,cover,remark,playlist:[play]}",
+        "search": "const url=`${env.baseUrl}/cn/search?q=${env.get(\"keyword\")}&page=${env.get(\"page\")}`;const html=await req(url);const $=kitty.load(html);return $(`.videos-lists .movie-card`).toArray().map(item=>{const a=$(item).find(\".uk-card-body a\");const id=a.attr(\"href\")??\"\";if(!id.startsWith(\"/cn/movie\"))return null;const imgEl=$(item).find(\"img[uk-cover]\");const cover=imgEl.attr(\"src\")??\"\";const title=imgEl.attr(\"alt\")??\"\";const remark=$(item).find(\".uk-tag.uk-type\").text()??\"\";return{id,cover,title,remark}}).filter(item=>!!item)"
+      }
+    }
+  },
+  {
+    "id": "vv99kk",
+    "name": "熊猫视频",
+    "api": "https://spiderscloudcn2.51111666.com",
+    "type": 1,
+    "nsfw": true,
+    "extra": {
+      "gfw": false,
+      "searchLimit": 20,
+      "js": {
+        "category": [
+          {
+            "id": "6",
+            "text": "91传媒"
+          },
+          {
+            "id": "7",
+            "text": "精东传媒"
+          },
+          {
+            "id": "8",
+            "text": "麻豆传媒"
+          },
+          {
+            "id": "9",
+            "text": "麻豆映画"
+          },
+          {
+            "id": "10",
+            "text": "麻豆猫爪"
+          },
+          {
+            "id": "11",
+            "text": "蜜桃传媒"
+          },
+          {
+            "id": "12",
+            "text": "天美传媒"
+          },
+          {
+            "id": "13",
+            "text": "星空传媒"
+          },
+          {
+            "id": "14",
+            "text": "偷拍自拍"
+          },
+          {
+            "id": "15",
+            "text": "日韩视频"
+          },
+          {
+            "id": "16",
+            "text": "欧美性爱"
+          },
+          {
+            "id": "17",
+            "text": "智能换脸"
+          },
+          {
+            "id": "18",
+            "text": "经典三级"
+          },
+          {
+            "id": "19",
+            "text": "网红主播"
+          },
+          {
+            "id": "20",
+            "text": "台湾辣妹"
+          },
+          {
+            "id": "21",
+            "text": "onlyfans"
+          },
+          {
+            "id": "22",
+            "text": "中文字幕"
+          },
+          {
+            "id": "23",
+            "text": "经典素人"
+          },
+          {
+            "id": "24",
+            "text": "高清无码"
+          },
+          {
+            "id": "25",
+            "text": "美颜巨乳"
+          },
+          {
+            "id": "26",
+            "text": "丝袜制服"
+          },
+          {
+            "id": "27",
+            "text": "SM系列"
+          },
+          {
+            "id": "28",
+            "text": "欧美系列"
+          },
+          {
+            "id": "29",
+            "text": "H動畫"
+          }
+        ],
+        "home": "const cate=env.get(\"category\");const page=env.get(\"page\");const unsafeObj=JSON.parse(await req(`${env.baseUrl}/forward`,{method:\"POST\",noCache:true,data:{RecordsPage:20,command:\"WEB_GET_INFO\",content:\"\",languageType:\"CN\",pageNumber:page,typeId:cate,typeMid:1}}));return unsafeObj.data.resultList.map(item=>{return{id:item.id,cover:item.vod_pic,title:item.vod_name,remark:item.vod_class}})",
+        "detail": "const id=env.get(\"movieId\");const response=JSON.parse(await req(`${env.baseUrl}/forward`,{method:\"POST\",noCache:true,data:{command:\"WEB_GET_INFO_DETAIL\",id,languageType:\"CN\",type_Mid:\"1\"}}));const _=response.data.result;const initObj=JSON.parse(await req(`${env.baseUrl}/getDataInit`,{method:\"POST\",data:{age:31,city:\"New York\",name:\"John\"}}));const xl1=initObj.data.macVodLinkMap;let playUrl=\"\";let xl=false;const num=Math.floor(Math.random()*2+1);if(null!=xl){if(xl==1){playUrl=xl1[response.data.result.vod_server_id].LINK_1+response.data.result.vod_url}else if(xl==2){playUrl=xl1[response.data.result.vod_server_id].LINK_2+response.data.result.vod_url}else if(xl==3){playUrl=xl1[response.data.result.vod_server_id].LINK_3+response.data.result.vod_url}else{if(num==1){playUrl=xl1[response.data.result.vod_server_id].LINK_1+response.data.result.vod_url;console.log(1)}else if(num==2){playUrl=xl1[response.data.result.vod_server_id].LINK_2+response.data.result.vod_url;console.log(2)}else{playUrl=xl1[response.data.result.vod_server_id].LINK_1+response.data.result.vod_url;console.log(3)}}}return{id,title:_.vod_name,playlist:[{title:\"\\u9ED8\\u8BA4\",videos:[{url:playUrl,text:\"\\u64AD\\u653E\"}]}]}",
+        "search": "const wd=env.get(\"keyword\");const page=env.get(\"page\");const unsafeObj=JSON.parse(await req(`${env.baseUrl}/forward`,{method:\"POST\",noCache:true,data:{RecordsPage:20,command:\"WEB_GET_INFO\",content:wd,languageType:\"CN\",pageNumber:page,type:1,typeMid:1,typeId:0}}));return unsafeObj.data.resultList.map(item=>{return{id:item.id,cover:item.vod_pic,title:item.vod_name,remark:item.vod_class}})"
+      }
+    }
+  },
+  {
+    "id": "yise6324",
+    "name": "一色",
+    "api": "https://yise42.xyz",
+    "nsfw": true,
+    "type": 1,
+    "extra": {
+      "js": {
+        "category": [
+          {
+            "text": "AI换脸",
+            "id": "AI换脸"
+          },
+          {
+            "text": "无码",
+            "id": "无码"
+          },
+          {
+            "text": "黑丝",
+            "id": "黑丝"
+          },
+          {
+            "text": "FC2",
+            "id": "fc2"
+          }
+        ],
+        "home": "const cate=env.get(\"category\");const page=env.get(\"page\");const url=`${env.baseUrl}/sp/index.php/vod/search/page/${page}/wd/${cate}.html`;const $=kitty.load(await req(url));return $(\".stui-vodlist li\").toArray().map(item=>{const a=$(item).find(\"a\");const title=a.attr(\"title\")??\"\";const cover=a.attr(\"data-original\")??\"\";const id=a.attr(\"href\")??\"\";const remark=a.find(\".pic-text.text-right\").text().trim();return{title,cover,id,remark}})",
+        "detail": "const id=env.get(\"movieId\");const url=`${env.baseUrl}${id}`;const html=await req(url);const $=kitty.load(html);const m3u8=kitty.utils.getM3u8WithStr(html);const title=$(\"h1.title\").text();return{title,playlist:[{title:\"\\u9ED8\\u8BA4\",videos:[{text:\"\\u64AD\\u653E\",url:m3u8}]}]}",
+        "search": "const wd=env.get(\"keyword\");const page=env.get(\"page\");const url=`${env.baseUrl}/sp/index.php/vod/search/page/${page}/wd/${wd}.html`;const $=kitty.load(await req(url));return $(\".stui-vodlist li\").toArray().map(item=>{const a=$(item).find(\"a\");const title=a.attr(\"title\")??\"\";const cover=a.attr(\"data-original\")??\"\";const id=a.attr(\"href\")??\"\";const remark=a.find(\".pic-text.text-right\").text().trim();return{title,cover,id,remark}})"
+      }
+    }
+  },
+  {
+    "id": "yjbav",
+    "name": "一级棒",
+    "type": 1,
+    "nsfw": true,
+    "api": "https://yjb.one",
+    "extra": {
+      "js": {
+        "category": [
+          {
+            "id": "21",
+            "text": "国产自拍"
+          },
+          {
+            "id": "22",
+            "text": "网红主播"
+          },
+          {
+            "id": "24",
+            "text": "自拍精选"
+          },
+          {
+            "id": "25",
+            "text": "国产传媒"
+          },
+          {
+            "id": "26",
+            "text": "日本无码"
+          },
+          {
+            "id": "27",
+            "text": "日本有码"
+          },
+          {
+            "id": "28",
+            "text": "有码精选"
+          },
+          {
+            "id": "34",
+            "text": "亚洲精选"
+          },
+          {
+            "id": "29",
+            "text": "小众口味"
+          },
+          {
+            "id": "30",
+            "text": "欧美精选"
+          },
+          {
+            "id": "31",
+            "text": "成人动漫"
+          },
+          {
+            "id": "32",
+            "text": "经典三级"
+          },
+          {
+            "id": "33",
+            "text": "Ai明星"
+          }
+        ],
+        "home": "const cate=env.get(\"category\");const page=env.get(\"page\");const url=`${env.baseUrl}/vodtype/${cate}-${page}/`;const $=kitty.load(await req(url));return $(\".post-list .col-md-3\").toArray().map(item=>{const a=$(item).find(\"a\");const img=a.find(\"img\");const id=a.attr(\"href\")??\"\";let cover=img.attr(\"data-original\")??\"\";cover=`${env.baseUrl}${cover}`;const title=img.attr(\"alt\")??\"\";return{id,cover,title}})",
+        "detail": "const id=env.get(\"movieId\");const url=`${env.baseUrl}${id}`;const html=await req(url);const $=kitty.load(html);const m3u8=kitty.utils.getM3u8WithStr(html);const title=$(\".breadcrumb\").text().trim();return{id,title,playlist:[{title:\"\\u9ED8\\u8BA4\",videos:[{text:\"\\uD83D\\uDE0D\\u64AD\\u653E\",url:m3u8}]}]}"
+      }
+    }
+  }
+]
