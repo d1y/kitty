@@ -55,7 +55,7 @@ export default class VV99KK implements Handle {
       nsfw: true,
       extra: {
         gfw: false,
-        searchLimit: 20,
+        searchLimit: 20,//it work?
       }
     }
   }
