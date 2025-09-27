@@ -53,6 +53,10 @@ export default class VV99KK implements Handle {
       api: 'https://spiderscloudcn2.51111666.com',
       type: 1,
       nsfw: true,
+      extra: {
+        gfw: false,
+        searchLimit: 20,
+      }
     }
   }
   async getCategory() {
@@ -243,7 +247,7 @@ export default class VV99KK implements Handle {
           title: "默认",
           videos: [
             {
-              id: playUrl,
+              url: playUrl,
               text: "播放",
             }
           ]
