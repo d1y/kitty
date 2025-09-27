@@ -51,7 +51,7 @@ export default class Yise6324 implements Handle {
     const $ = kitty.load(html)
     const m3u8 = kitty.utils.getM3u8WithStr(html)
     const title = $("h1.title").text()
-    return <IMovie>{ title, playlist: [{ title: "默认", videos: [{ text: "播放", id: m3u8 }] }] }
+    return <IMovie>{ title, playlist: [{ title: "默认", videos: [{ text: "播放", url: m3u8 }] }] }
   }
   async getSearch() {
     const wd = env.get<string>("keyword")
