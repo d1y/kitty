@@ -44,7 +44,10 @@ export default class ThePornCC implements Handle {
     })
   }
   async getDetail() {
-    const id = env.get<string>("movieId")
+    let id = env.get<string>("movieId")
+    if (id.startsWith("/")) {
+      id = id.slice(1)
+    }
     const url = `${env.baseUrl}/${id}`
     const text = await req(url)
     const $ = kitty.load(text)
