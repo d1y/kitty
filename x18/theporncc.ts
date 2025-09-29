@@ -7,6 +7,7 @@ export default class ThePornCC implements Handle {
       name: "ThePorn",
       nsfw: true,
       api: "https://theporn.cc",
+      type: 1,
       extra: {
         gfw: true,
         searchLimit: 28,
