@@ -36,11 +36,12 @@ jobs:
         bunx kitty-parse -o x.json
         bun run vod.ts vod.json xvod.json
         bun run t4.ts t4.json
+        bun run pages.ts index.html
     
     - name: Prepare deployment directory
       run: |
         mkdir -p deploy
-        cp x.json vod.json xvod.json t4.json deploy/
+        cp x.json vod.json xvod.json t4.json index.html deploy/
     
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
