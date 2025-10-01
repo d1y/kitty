@@ -1,5 +1,7 @@
 # @d1y/kitty
 
+https://d1y.github.io/kitty
+
 小猫影视扩展源, @d1y 自用
 
 ```bash
