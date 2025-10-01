@@ -15,17 +15,20 @@ npx http-server
 - JS: https://d1y.github.io/kitty/x.json
 - vod: https://d1y.github.io/kitty/vod.json
 - xvod: https://d1y.github.io/kitty/xvod.json
+- t4: https://d1y.github.io/kitty/t4.json
 
 ```log
 https://d1y.github.io/kitty/x.json
 https://d1y.github.io/kitty/vod.json
 https://d1y.github.io/kitty/xvod.json
+https://d1y.github.io/kitty/t4.json
 ```
 
-国内镜像
+国内镜像加速
 
 ```log
 https://ghfast.top/https://raw.githubusercontent.com/d1y/kitty/refs/heads/gh-pages/x.json
 https://ghfast.top/https://raw.githubusercontent.com/d1y/kitty/refs/heads/gh-pages/vod.json
 https://ghfast.top/https://raw.githubusercontent.com/d1y/kitty/refs/heads/gh-pages/xvod.json
+https://ghfast.top/https://raw.githubusercontent.com/d1y/kitty/refs/heads/gh-pages/t4.json
 ```
