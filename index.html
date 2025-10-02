@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小猫影视</title>
+    <!-- favicon -->
+      <link rel="icon" href="https://raw.githubusercontent.com/waifu-project/movie/refs/heads/dev/design/logo_round.svg"></link>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .logo {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 20px;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 40px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        .card-description {
+            color: #718096;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .source-list {
+            list-style: none;
+        }
+
+        .source-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .source-item:last-child {
+            border-bottom: none;
+        }
+
+        .source-name {
+            font-weight: 500;
+            color: #2d3748;
+        }
+
+        .copy-btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+        }
+
+        .copy-btn:hover {
+            opacity: 0.9;
+            transform: scale(1.05);
+        }
+
+        .source-type-actions {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .source-type-actions .copy-btn {
+            font-size: 1rem;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+        }
+
+        .stats {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 30px;
+        }
+
+        .stat-item {
+            color: white;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .stat-number.mini {
+            font-size: 1.5rem;
+            margin-bottom: .8rem;
+            margin-top: .8rem;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px 15px;
+            }
+
+            .logo {
+                font-size: 2.5rem;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+        }
+
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #48bb78;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="logo" id="site-logo"></h1>
+            <p class="subtitle" id="site-subtitle"></p>
+            <!-- <div>
+            <img src="https://s2.loli.net/2025/10/02/viIhnRug4sEZ53X.gif" height="120px" />
+            <img src="https://s2.loli.net/2025/10/02/viIhnRug4sEZ53X.gif" height="120px" />
+            </div> -->
+        </div>
+
+        <div class="stats">
+            <div class="stats-grid" id="stats-grid">
+                <!-- 统计数据将由JS动态生成 -->
+            </div>
+        </div>
+
+        <div class="grid" id="cards-grid">
+            <!-- 卡片内容将由JS动态生成 -->
+        </div>
+
+    <div id="toast" class="toast">
+        链接已复制到剪贴板！
+    </div>
+
+    <script>
+        // 站点配置对象 - 方便统一管理和调整所有文字内容
+        const siteConfig = {
+            // 网站基本信息
+            site: {
+                logo: 'd1y/kitty',
+                subtitle: '请勿用于商业和非法用途'
+            },
+            
+            // 统计数据配置
+            stats: [
+                { number: '4', label: '源类型', animation: { end: 4, static: true, suffix: '' } },
+                { number: '109', label: '订阅源数量', animation: { end: 109, static: true, suffix: '+' } },
+                { number: '25/10/02', label: '更新时间', animation: { static: true } },
+                { number: '99%', label: '可用率', animation: { end: 99, suffix: '%' } }
+            ],
+            
+            // 卡片配置 - 使用Map结构管理不同源类型
+            cards: [
+                {
+                    id: 'vod',
+                    icon: '📺',
+                    title: 'VOD 影视源',
+                    description: '传统视频点播源，支持电影、电视剧、综艺节目等内容，高清画质，稳定播放。',
+                    buttonText: 'VOD 订阅源',
+                    file: 'vod.json'
+                },
+                {
+                    id: 'xvod',
+                    icon: '🔞',
+                    title: 'XVOD 成人源',
+                    description: '成人内容专用源，提供丰富的成人影视资源，需要用户自行选择。',
+                    buttonText: 'XVOD 订阅源',
+                    file: 'xvod.json'
+                },
+                {
+                    id: 'js',
+                    icon: '⚙️',
+                    title: 'JS 脚本源',
+                    description: 'JavaScript 脚本驱动的动态源，支持实时解析和更新，功能更加灵活。',
+                    buttonText: 'JS 订阅源',
+                    file: 'x.json'
+                },
+                {
+                    id: 't4',
+                    icon: '🚀',
+                    title: 'T4 快速源',
+                    description: '第四代快速订阅源，优化加载速度和缓存机制，提供更好的播放体验。',
+                    buttonText: 'T4 订阅源',
+                    file: 't4.json'
+                },
+                {
+                    id: 'all',
+                    icon: '🌐',
+                    title: '全部源',
+                    description: '聚合所有订阅源类型，一键获取最全面的影视资源。',
+                    buttonText: '聚合所有源',
+                    file: []
+                },
+                {
+                    id: 'sponsor',
+                    icon: '💖',
+                    title: '赞助',
+                    description: '如果您觉得这个项目对您有帮助，不妨请开发者喝杯咖啡 ☕️',
+                    buttonText: null, // 不显示按钮
+                    file: null,
+                    customContent: `
+                        <div style="color: #4a5568; line-height: 1.8; text-align: center;">
+                            <img src="https://s2.loli.net/2025/09/24/ByRvOsQhWzKLXNo.jpg" alt="赞助二维码" style="max-width: 200px; margin: 20px auto; display: block;">
+                            <p style="font-size: 0.9rem; color: #718096; margin-top: 15px;">💝 每一份支持都是前进的动力</p>
+                            <p style="font-size: 0.9rem; color: #718096;">🚀 让更多优质资源与您相遇</p>
+                        </div>
+                    `
+                }
+            ]
+        };
+
+        // 使用Map结构管理源类型配置，提升代码的简洁性和可维护性
+        const sourceTypeMap = new Map();
+        
+        // 初始化页面内容
+        function initializePage() {
+            // 渲染网站基本信息
+            document.getElementById('site-logo').textContent = siteConfig.site.logo;
+            document.getElementById('site-subtitle').textContent = siteConfig.site.subtitle;
+            
+            // 渲染统计数据
+            renderStats();
+            
+            // 渲染卡片
+            renderCards();
+            
+            // 初始化源类型映射
+            initSourceTypeMap();
+        }
+        
+        // 渲染统计数据
+        function renderStats() {
+            const statsGrid = document.getElementById('stats-grid');
+            statsGrid.innerHTML = '';
+            
+            siteConfig.stats.forEach(stat => {
+                let _class = ''
+                if (stat.label == "更新时间") {
+                  _class = 'mini'
+                }
+                const statItem = document.createElement('div');
+                statItem.className = 'stat-item';
+                statItem.innerHTML = `
+                    <div class="stat-number ${_class}">${stat.number}</div>
+                    <div class="stat-label">${stat.label}</div>
+                `;
+                statsGrid.appendChild(statItem);
+            });
+        }
+        
+        // 渲染卡片
+        function renderCards() {
+            const cardsGrid = document.getElementById('cards-grid');
+            cardsGrid.innerHTML = '';
+            
+            siteConfig.cards.forEach(cardConfig => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                
+                let buttonHtml = '';
+                if (cardConfig.buttonText) {
+                    buttonHtml = `
+                        <div class="source-type-actions">
+                            <button class="copy-btn" onclick="copyToClipboard('${cardConfig.id}')">${cardConfig.buttonText}</button>
+                        </div>
+                    `;
+                }
+                
+                card.innerHTML = `
+                    <div class="card-header">
+                        <div class="card-icon">${cardConfig.icon}</div>
+                        <h3 class="card-title">${cardConfig.title}</h3>
+                    </div>
+                    <p class="card-description">${cardConfig.description}</p>
+                    ${cardConfig.customContent || buttonHtml}
+                `;
+                
+                cardsGrid.appendChild(card);
+            });
+        }
+        
+        // 初始化源类型映射
+        function initSourceTypeMap() {
+            sourceTypeMap.clear();
+            siteConfig.cards.forEach(card => {
+                if (card.file) {
+                    sourceTypeMap.set(card.id, {
+                        file: card.file,
+                        name: card.title
+                    });
+                }
+            });
+        }
+
+        function copyToClipboard(sourceType) {
+            const baseUrl = `https://d1y.github.io/kitty`
+            const sourceConfig = sourceTypeMap.get(sourceType);
+            
+            if (!sourceConfig) {
+                console.error('未知的源类型:', sourceType);
+                return;
+            }
+            
+            let sourceUrl = `${baseUrl}/${sourceConfig.file}`;
+            if (Array.isArray(sourceConfig.file)) {
+              sourceUrl = ''
+              siteConfig.cards.forEach(item=> {
+                if (typeof item.file == 'string') {
+                  sourceUrl += `${baseUrl}/${item.file}\n`
+                }
+              })
+            }
+            
+            navigator.clipboard.writeText(sourceUrl).then(function() {
+                showToast(`${sourceConfig.name}链接已复制！`);
+                console.log('复制成功: ' + sourceUrl);
+            }).catch(function(err) {
+                // 如果现代API不可用，使用传统方法
+                const textArea = document.createElement('textarea');
+                textArea.value = sourceUrl;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                showToast(`${sourceConfig.name}链接已复制！`);
+                console.log('复制成功 (fallback): ' + sourceUrl);
+            });
+        }
+
+        function showToast(message = '链接已复制到剪贴板！') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // 添加一些动态效果
+        document.addEventListener('DOMContentLoaded', function() {
+            // 初始化页面
+            initializePage();
+            
+            // 为卡片添加进入动画
+            setTimeout(() => {
+                const cards = document.querySelectorAll('.card');
+                cards.forEach((card, index) => {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(30px)';
+                    setTimeout(() => {
+                        card.style.transition = 'all 0.6s ease';
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, index * 100);
+                });
+            }, 100);
+
+            // 数字动画效果
+            setTimeout(() => {
+                const statNumbers = document.querySelectorAll('.stat-number');
+                statNumbers.forEach((stat, index) => {
+                    const statConfig = siteConfig.stats[index];
+                    if (statConfig && statConfig.animation) {
+                        if (statConfig.animation.static) {
+                            stat.textContent = statConfig.number;
+                        } else {
+                            animateNumber(stat, 0, statConfig.animation.end, statConfig.animation.suffix);
+                        }
+                    }
+                });
+            }, 200);
+        });
+
+        function animateNumber(element, start, end, suffix) {
+            const duration = 2000;
+            const increment = (end - start) / (duration / 16);
+            let current = start;
+            
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= end) {
+                    current = end;
+                    clearInterval(timer);
+                }
+                element.textContent = Math.floor(current) + suffix;
+            }, 16);
+        }
+    </script>
+</body>
+</html>
