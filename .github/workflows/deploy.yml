@@ -1,0 +1,58 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+permissions: write-all
+
+env:
+  VOD_CATES: "0"
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    
+    - name: Setup Bun
+      uses: oven-sh/setup-bun@v1
+      with:
+        bun-version: latest
+
+    - name: Clone movie JS packages
+      run: |
+        git clone --depth 1 --branch dev \
+          https://github.com/waifu-project/movie.git vendor/movie
+    
+    - name: Install dependencies
+      run: bun install
+    
+    - name: Generate configuration file
+      run: |
+        bunx kitty-parse -o x.json
+        bun run vod.ts vod.json
+        bun run lives.ts lives.json
+        bun run pages.ts index.html
+    
+    - name: Prepare deployment directory
+      run: |
+        mkdir -p deploy
+        cp x.json vod.json lives.json index.html deploy/
+    
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: deploy
+        publish_branch: gh-pages
+        force_orphan: true
+        keep_files: false
+        commit_message: 'Deploy: Update configuration file'
+        user_name: 'github-actions[bot]'
+        user_email: 'github-actions[bot]@users.noreply.github.com'
