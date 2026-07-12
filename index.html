@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>小猫影视</title>
+  <link rel="icon" href="https://raw.githubusercontent.com/waifu-project/movie/refs/heads/dev/logo.png">
+  <style>
+    :root {
+      --bg: #f6f5f2;
+      --surface: #ffffff;
+      --ink: #171717;
+      --muted: #6b6b6b;
+      --faint: #a3a3a3;
+      --line: #e8e6e1;
+      --line-strong: #d4d1c9;
+      --accent: #1a1a1a;
+      --accent-soft: #f0efeb;
+      --ok: #0f7a45;
+      --ok-bg: #e8f6ee;
+      --radius: 14px;
+      --shadow: 0 1px 2px rgba(23, 23, 23, 0.04), 0 8px 24px rgba(23, 23, 23, 0.04);
+      --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+      --ease: cubic-bezier(0.25, 0.1, 0.25, 1);
+      --font: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+    }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--ink);
+      min-height: 100vh;
+      line-height: 1.5;
+    }
+
+    /* Soft paper grain — no purple orbs */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background:
+        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(0, 0, 0, 0.03), transparent 60%),
+        radial-gradient(circle at 100% 100%, rgba(0, 0, 0, 0.02), transparent 40%);
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 48px 20px 80px;
+    }
+
+    /* ——— Header ——— */
+    .header {
+      margin-bottom: 36px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--faint);
+      margin-bottom: 12px;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--ink);
+      opacity: 0.35;
+    }
+
+    .logo {
+      font-size: clamp(1.75rem, 4vw, 2.25rem);
+      font-weight: 650;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      font-size: 0.95rem;
+      color: var(--muted);
+      font-weight: 400;
+      letter-spacing: -0.01em;
+      max-width: 36em;
+    }
+
+    /* ——— Stats strip ——— */
+    .stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1px;
+      background: var(--line);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 28px;
+    }
+
+    .stat {
+      flex: 1 1 120px;
+      background: var(--surface);
+      padding: 16px 18px;
+      min-width: 0;
+    }
+
+    .stat-value {
+      font-family: var(--mono);
+      font-size: 1.125rem;
+      font-weight: 550;
+      letter-spacing: -0.02em;
+      font-variant-numeric: tabular-nums;
+      color: var(--ink);
+      line-height: 1.2;
+    }
+
+    .stat-value.is-date {
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+
+    .stat-label {
+      margin-top: 4px;
+      font-size: 0.75rem;
+      color: var(--faint);
+      font-weight: 500;
+    }
+
+    /* ——— Card list ——— */
+    .list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 18px 18px 16px;
+      box-shadow: var(--shadow);
+      transition:
+        border-color 180ms var(--ease),
+        box-shadow 180ms var(--ease),
+        transform 180ms var(--ease-out);
+      opacity: 0;
+      transform: translateY(8px);
+    }
+
+    .card.is-in {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .card:hover {
+        border-color: var(--line-strong);
+        box-shadow: 0 1px 2px rgba(23, 23, 23, 0.05), 0 12px 28px rgba(23, 23, 23, 0.06);
+        transform: translateY(-1px);
+      }
+    }
+
+    .card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .card-title-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .card-mark {
+      flex-shrink: 0;
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: var(--accent-soft);
+      color: var(--ink);
+      font-size: 0.7rem;
+      font-weight: 650;
+      letter-spacing: -0.02em;
+      display: grid;
+      place-items: center;
+      font-family: var(--mono);
+    }
+
+    .card-title {
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      line-height: 1.3;
+    }
+
+    .card-desc {
+      font-size: 0.875rem;
+      color: var(--muted);
+      line-height: 1.55;
+      margin-bottom: 14px;
+      max-width: 48em;
+    }
+
+    .card-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn {
+      appearance: none;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 0.8125rem;
+      font-weight: 550;
+      letter-spacing: -0.01em;
+      padding: 9px 14px;
+      border-radius: 10px;
+      background: var(--accent);
+      color: #fff;
+      transition:
+        transform 140ms var(--ease-out),
+        background 160ms var(--ease),
+        opacity 160ms var(--ease);
+    }
+
+    .btn:active {
+      transform: scale(0.97);
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .btn:hover {
+        background: #2a2a2a;
+      }
+    }
+
+    .btn:focus-visible {
+      outline: 2px solid var(--ink);
+      outline-offset: 2px;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--ink);
+      border: 1px solid var(--line-strong);
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .btn-secondary:hover {
+        background: var(--accent-soft);
+      }
+    }
+
+    /* Sponsor */
+    .sponsor {
+      text-align: center;
+      padding-top: 4px;
+    }
+
+    .sponsor img {
+      display: block;
+      width: 160px;
+      max-width: 100%;
+      height: auto;
+      margin: 12px auto 0;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+    }
+
+    .sponsor-note {
+      margin-top: 12px;
+      font-size: 0.8125rem;
+      color: var(--faint);
+    }
+
+    /* ——— Toast ——— */
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 28px;
+      z-index: 1000;
+      transform: translateX(-50%) translateY(8px) scale(0.96);
+      opacity: 0;
+      pointer-events: none;
+      background: var(--ink);
+      color: #fff;
+      font-size: 0.875rem;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      padding: 12px 16px;
+      border-radius: 12px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.18);
+      transition:
+        opacity 200ms var(--ease-out),
+        transform 200ms var(--ease-out);
+      max-width: calc(100vw - 40px);
+      white-space: nowrap;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0) scale(1);
+      pointer-events: auto;
+    }
+
+    .toast.is-ok::before {
+      content: "";
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #4ade80;
+      margin-right: 8px;
+      vertical-align: middle;
+    }
+
+    .footer {
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid var(--line);
+      font-size: 0.75rem;
+      color: var(--faint);
+      text-align: center;
+    }
+
+    @media (max-width: 520px) {
+      .page {
+        padding: 32px 16px 72px;
+      }
+
+      .stats {
+        flex-direction: column;
+      }
+
+      .stat {
+        flex: none;
+      }
+
+      .toast {
+        left: 16px;
+        right: 16px;
+        bottom: 16px;
+        transform: translateY(8px) scale(0.96);
+        text-align: center;
+        white-space: normal;
+      }
+
+      .toast.show {
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .card,
+      .btn,
+      .toast {
+        transition: none !important;
+      }
+
+      .card {
+        opacity: 1;
+        transform: none;
+      }
+
+      .toast {
+        transform: translateX(-50%);
+      }
+
+      .toast.show {
+        transform: translateX(-50%);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+    <header class="header">
+      <div class="eyebrow">订阅源</div>
+      <h1 class="logo" id="site-logo"></h1>
+      <p class="subtitle" id="site-subtitle"></p>
+    </header>
+
+    <div class="stats" id="stats-grid" role="group" aria-label="概览"></div>
+
+    <div class="list" id="cards-grid"></div>
+
+    <p class="footer">仅供学习参考 · 请勿用于商业与非法用途</p>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    const siteConfig = {
+      site: {
+        logo: 'd1y/kitty',
+        subtitle: '选择一种订阅源，复制链接后在客户端中添加。'
+      },
+
+      stats: [
+        { number: '2', label: '源类型', animation: { end: 2, static: true, suffix: '' } },
+        { number: '6', label: '订阅源数量', animation: { end: 6, static: true, suffix: '+' } },
+        { number: '26/07/12', label: '更新时间', animation: { static: true } }
+      ],
+
+      cards: [
+        {
+          id: 'js',
+          mark: 'JS',
+          title: 'JS 脚本源',
+          description: '脚本驱动，支持动态解析与更新。',
+          buttonText: '复制链接',
+          file: 'x.json'
+        },
+        {
+          id: 'vod',
+          mark: 'VOD',
+          title: 'VOD 影视源',
+          description: '电影、剧集、综艺等点播资源。',
+          buttonText: '复制链接',
+          file: 'vod.json'
+        },
+        {
+          id: 'lives',
+          mark: 'TV',
+          title: '电视直播',
+          description: '卫视、地方台、央视频道直播源。',
+          buttonText: '复制链接',
+          file: 'lives.json'
+        },
+        {
+          id: 'all',
+          mark: 'ALL',
+          title: '全部源',
+          description: '一次性复制当前全部订阅地址。',
+          buttonText: '复制全部',
+          file: []
+        },
+        {
+          id: 'sponsor',
+          mark: '♡',
+          title: '赞助',
+          description: '如果这个项目对你有帮助，可以请开发者喝杯咖啡。',
+          buttonText: null,
+          file: null,
+          customContent: `
+            <div class="sponsor">
+              <img src="https://s2.loli.net/2025/09/24/ByRvOsQhWzKLXNo.jpg" alt="赞助二维码" width="160" height="160">
+              <p class="sponsor-note">感谢支持</p>
+            </div>
+          `
+        }
+      ]
+    };
+
+    const sourceTypeMap = new Map();
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function initializePage() {
+      document.getElementById('site-logo').textContent = siteConfig.site.logo;
+      document.getElementById('site-subtitle').textContent = siteConfig.site.subtitle;
+      renderStats();
+      renderCards();
+      initSourceTypeMap();
+      revealCards();
+    }
+
+    function renderStats() {
+      const statsGrid = document.getElementById('stats-grid');
+      statsGrid.innerHTML = '';
+
+      siteConfig.stats.forEach(stat => {
+        const isDate = stat.label === '更新时间';
+        const el = document.createElement('div');
+        el.className = 'stat';
+        el.innerHTML = `
+          <div class="stat-value${isDate ? ' is-date' : ''}">${stat.number}</div>
+          <div class="stat-label">${stat.label}</div>
+        `;
+        statsGrid.appendChild(el);
+      });
+    }
+
+    function renderCards() {
+      const cardsGrid = document.getElementById('cards-grid');
+      cardsGrid.innerHTML = '';
+
+      siteConfig.cards.forEach(cardConfig => {
+        const card = document.createElement('article');
+        card.className = 'card';
+
+        let actions = '';
+        if (cardConfig.buttonText) {
+          actions = `
+            <div class="card-actions">
+              <button type="button" class="btn" data-copy="${cardConfig.id}">
+                ${cardConfig.buttonText}
+              </button>
+            </div>
+          `;
+        }
+
+        card.innerHTML = `
+          <div class="card-top">
+            <div class="card-title-row">
+              <span class="card-mark" aria-hidden="true">${cardConfig.mark}</span>
+              <h2 class="card-title">${cardConfig.title}</h2>
+            </div>
+          </div>
+          <p class="card-desc">${cardConfig.description}</p>
+          ${cardConfig.customContent || actions}
+        `;
+
+        const btn = card.querySelector('[data-copy]');
+        if (btn) {
+          btn.addEventListener('click', () => copyToClipboard(cardConfig.id));
+        }
+
+        cardsGrid.appendChild(card);
+      });
+    }
+
+    function revealCards() {
+      const cards = document.querySelectorAll('.card');
+      if (prefersReducedMotion) {
+        cards.forEach(c => c.classList.add('is-in'));
+        return;
+      }
+      // Short stagger (40ms) — first paint only, under 300ms total feel
+      cards.forEach((card, i) => {
+        window.setTimeout(() => card.classList.add('is-in'), i * 40);
+      });
+    }
+
+    function initSourceTypeMap() {
+      sourceTypeMap.clear();
+      siteConfig.cards.forEach(card => {
+        if (card.file !== null && card.file !== undefined) {
+          sourceTypeMap.set(card.id, {
+            file: card.file,
+            name: card.title
+          });
+        }
+      });
+    }
+
+    function copyToClipboard(sourceType) {
+      const baseUrl = `https://d1y.github.io/kitty`;
+      const sourceConfig = sourceTypeMap.get(sourceType);
+
+      if (!sourceConfig) {
+        console.error('未知的源类型:', sourceType);
+        return;
+      }
+
+      let sourceUrl = `${baseUrl}/${sourceConfig.file}`;
+      if (Array.isArray(sourceConfig.file)) {
+        sourceUrl = '';
+        siteConfig.cards.forEach(item => {
+          if (typeof item.file === 'string') {
+            sourceUrl += `${baseUrl}/${item.file}\n`;
+          }
+        });
+      }
+
+      const done = () => showToast(`${sourceConfig.name} 已复制`);
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(sourceUrl).then(done).catch(() => fallbackCopy(sourceUrl, done));
+      } else {
+        fallbackCopy(sourceUrl, done);
+      }
+    }
+
+    function fallbackCopy(text, done) {
+      const textArea = document.createElement('textarea');
+      textArea.value = text;
+      textArea.setAttribute('readonly', '');
+      textArea.style.position = 'fixed';
+      textArea.style.opacity = '0';
+      document.body.appendChild(textArea);
+      textArea.select();
+      try {
+        document.execCommand('copy');
+        done();
+      } finally {
+        document.body.removeChild(textArea);
+      }
+    }
+
+    let toastTimer = 0;
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.classList.add('show', 'is-ok');
+      window.clearTimeout(toastTimer);
+      toastTimer = window.setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2200);
+    }
+
+    document.addEventListener('DOMContentLoaded', initializePage);
+  </script>
+</body>
+
+</html>

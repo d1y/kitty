@@ -1,0 +1,24 @@
+{
+  "lives": [
+    {
+      "name": "vbskycn/tv",
+      "url": "https://raw.githubusercontent.com/vbskycn/iptv/master/tv/iptv4.m3u",
+      "type": 0
+    },
+    {
+      "name": "kimwang1978/tv",
+      "url": "https://raw.githubusercontent.com/kimwang1978/collect-tv-txt/main/bbxx_lite.m3u",
+      "type": 0
+    },
+    {
+      "name": "Guovin/tv",
+      "url": "https://raw.githubusercontent.com/Guovin/iptv-api/gd/output/ipv4/result.m3u",
+      "type": 0
+    },
+    {
+      "name": "mytv-android/tv",
+      "url": "https://raw.githubusercontent.com/mytv-android/China-TV-Live-M3U8/main/iptv.m3u",
+      "type": 0
+    }
+  ]
+}
